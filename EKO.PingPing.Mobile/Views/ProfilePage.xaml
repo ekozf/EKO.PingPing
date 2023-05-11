@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+             xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+             x:Class="EKO.PingPing.Mobile.Views.ProfilePage"
+             x:DataType="viewmodels:ProfileViewModel"
+             BackgroundColor="{DynamicResource Surface3}">
+
+    <ContentPage.Behaviors>
+        <!-- StatusBarColor is set to Transparent in MauiProgram.cs -->
+        <toolkit:StatusBarBehavior StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding LoadUserDataCommand}" />
+    </ContentPage.Behaviors>
+    
+    <Grid Margin="0, 50, 0, 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="6*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Text="Account Details"
+            Grid.Row="0"
+            Grid.Column="1"
+            TextColor="{DynamicResource Primary}"
+            VerticalOptions="Center" 
+            FontSize="24"
+            FontAttributes="Bold"
+            Margin="5,0,0,15" />
+
+        <Border
+            StrokeThickness="0"
+            BackgroundColor="{DynamicResource Surface1}"
+            Padding="15"
+            Grid.Row="1"
+            Grid.Column="1">
+            
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="70*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Text="Name:"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="End"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="5,0,5,15"
+                    Opacity=".75"
+                    />
+                
+                <Label
+                    Text="{Binding Purse.Name}"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" 
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="5,0,0,15"
+                    />
+
+                <Label
+                    Text="Email:"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="5,0,5,15"
+                    Opacity=".75"
+                    />
+                
+                <Label
+                    Text="{Binding Purse.Email}"
+                    Grid.Row="1"
+                    Grid.Column="1" 
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" 
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="5,0,0,15"
+                    />
+
+                <Label
+                    Text="Username:"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="5,0,5,15"
+                    Opacity=".75"
+                    />
+                
+                <Label
+                    Text="{Binding Purse.UserName}"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" 
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="5,0,0,15"
+                    />
+
+            </Grid>
+        </Border>
+
+        <Button Grid.Row="3" Grid.Column="1"
+            Text="Log Out"
+            FontSize="18"
+            BackgroundColor="{DynamicResource PrimaryContainer}"
+            TextColor="{DynamicResource Primary}"
+            Command="{Binding LogOutUserCommand}"
+            FontAttributes="Bold" />
+    </Grid>
+</ContentPage>

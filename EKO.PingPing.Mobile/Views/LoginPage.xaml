@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:components="clr-namespace:EKO.PingPing.Mobile.Components"
+             x:Class="EKO.PingPing.Mobile.Views.LoginPage"
+             x:DataType="viewmodels:LoginViewModel"
+             BackgroundColor="{DynamicResource Surface1}">
+    <ContentPage.Behaviors>
+        <!-- StatusBarColor is set to Transparent in MauiProgram.cs -->
+        <toolkit:StatusBarBehavior StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding CheckUserLoggedInCommand}" />
+    </ContentPage.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+                Text="Log In"
+                FontSize="60"
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                TextColor="{DynamicResource Primary}"
+                Grid.Row="1"
+                Grid.Column="1" />
+
+        <VerticalStackLayout Grid.Row="3" Grid.Column="1">
+
+            <Label Text="Gebruikersnaam" FontSize="18" FontFamily="RobotoBold" TextColor="{DynamicResource Primary}" Margin="5, 0, 0, 10" />
+
+            <Frame
+                BorderColor="Transparent"
+                Padding="16, 4"
+                Margin="0"
+                IsClippedToBounds="True"
+                BackgroundColor="{DynamicResource Surface5}">
+
+                <components:BorderlessEntry
+                    toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference PasswordEntry}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="60"
+                    Text="{Binding UserName}"
+                    FontSize="16"
+                    FontFamily="Roboto"
+                    PlaceholderColor="{DynamicResource Secondary}"
+                    TextColor="{DynamicResource Primary}"
+                    BackgroundColor="Transparent" />
+            </Frame>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="4" Grid.Column="1">
+
+            <Label Text="Wachtwoord" FontSize="18" FontFamily="RobotoBold" TextColor="{DynamicResource Primary}" Margin="5, 0, 0, 10" />
+
+            <Frame
+                BorderColor="Transparent"
+                Padding="16, 4"
+                Margin="0"
+                IsClippedToBounds="True"
+                BackgroundColor="{DynamicResource Surface5}">
+
+                <components:BorderlessEntry
+                    x:Name="PasswordEntry"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="60"
+                    ReturnCommand="{Binding DoLoginCommand}"
+                    Text="{Binding Password}"
+                    FontSize="16"
+                    IsPassword="True"
+                    FontFamily="Roboto"
+                    PlaceholderColor="{DynamicResource Secondary}"
+                    TextColor="{DynamicResource Primary}"
+                    BackgroundColor="Transparent">
+                </components:BorderlessEntry>
+            </Frame>
+
+        </VerticalStackLayout>
+
+        <Button
+            Grid.Row="6"
+            Grid.Column="1"
+            Text="Log In"
+            FontSize="18"
+            BackgroundColor="{DynamicResource PrimaryContainer}"
+            TextColor="{DynamicResource Primary}"
+            Command="{Binding DoLoginCommand}"
+            FontAttributes="Bold" />
+    </Grid>
+</ContentPage>

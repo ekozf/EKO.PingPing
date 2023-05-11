@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+             xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+             xmlns:controls="clr-namespace:EKO.PingPing.Mobile.Controls"
+             x:Class="EKO.PingPing.Mobile.Views.TransactionHistoryPage"
+             x:DataType="viewmodels:TransactionHistoryViewModel"
+             BackgroundColor="{DynamicResource Surface3}">
+
+    <ContentPage.Resources>
+        <converters:PurseBalanceConverter x:Key="PurseBalanceConverter" />
+        <converters:BalanceToColorConverter x:Key="BalanceToColorConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <!-- StatusBarColor is set to Transparent in MauiProgram.cs -->
+        <toolkit:StatusBarBehavior StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding LoadTransactionsCommand}" />
+    </ContentPage.Behaviors>
+
+    <RefreshView
+        Command="{Binding RefreshTransactionsCommand}"
+        IsRefreshing="{Binding RefreshTransactionsCommand.IsRunning}"
+        RefreshColor="{DynamicResource Primary}">
+        
+        <CollectionView
+            SelectionMode="None"
+            ItemsSource="{Binding Transactions}"
+            RemainingItemsThreshold="5"
+            RemainingItemsThresholdReachedCommand="{Binding LoadNextTransactionPageCommand}">
+
+            <CollectionView.Header>
+                <VerticalStackLayout Margin="20, 200, 20, 50">
+                    <Label
+                        Text="Uw eerdere Transacties:"
+                        TextColor="{DynamicResource Primary}"
+                        VerticalOptions="Center" 
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        Margin="5,0,0,0" />
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:TransactionModel}">
+                    <controls:TransactionCard  />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <VerticalStackLayout Margin="0,25,0,0" />
+            </CollectionView.Footer>
+
+        </CollectionView>
+        
+    </RefreshView>
+</ContentPage>

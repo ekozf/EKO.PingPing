@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31611.283
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EKO.PingPing.Mobile", "EKO.PingPing.Mobile\EKO.PingPing.Mobile.csproj", "{7CC56E4B-7EF6-4479-B895-E04421D07493}"
+	ProjectSection(ProjectDependencies) = postProject
+		{45E589BA-ACEA-406B-AA33-0A176D90B6B5} = {45E589BA-ACEA-406B-AA33-0A176D90B6B5}
+		{693E4990-9200-4436-9EF7-128879E3CAAF} = {693E4990-9200-4436-9EF7-128879E3CAAF}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EKO.PingPing.Infrastructure", "EKO.PingPing.Infrastructure\EKO.PingPing.Infrastructure.csproj", "{693E4990-9200-4436-9EF7-128879E3CAAF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{45E589BA-ACEA-406B-AA33-0A176D90B6B5} = {45E589BA-ACEA-406B-AA33-0A176D90B6B5}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EKO.PingPing.Shared", "EKO.PingPing.Shared\EKO.PingPing.Shared.csproj", "{45E589BA-ACEA-406B-AA33-0A176D90B6B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CC56E4B-7EF6-4479-B895-E04421D07493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC56E4B-7EF6-4479-B895-E04421D07493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC56E4B-7EF6-4479-B895-E04421D07493}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7CC56E4B-7EF6-4479-B895-E04421D07493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC56E4B-7EF6-4479-B895-E04421D07493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC56E4B-7EF6-4479-B895-E04421D07493}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{693E4990-9200-4436-9EF7-128879E3CAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{693E4990-9200-4436-9EF7-128879E3CAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{693E4990-9200-4436-9EF7-128879E3CAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{693E4990-9200-4436-9EF7-128879E3CAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E589BA-ACEA-406B-AA33-0A176D90B6B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E589BA-ACEA-406B-AA33-0A176D90B6B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E589BA-ACEA-406B-AA33-0A176D90B6B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E589BA-ACEA-406B-AA33-0A176D90B6B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+	EndGlobalSection
+EndGlobal
