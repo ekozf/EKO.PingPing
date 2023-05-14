@@ -46,4 +46,18 @@ public interface IPingPingService
     /// <param name="forced">Whether to ignore cached results, true forces a request to the API, false allows for data to be retrieved from the cache. Default is false.</param>
     /// <returns>If the user is correctly logged in, returns an IEnumerable of <see cref="TransactionModel"/> otherwise returns null.</returns>
     public Task<PagedTransactionModel?> GetTransactions(int page, bool forced = false);
+
+    /// <summary>
+    /// Gets the user's sessions from the API.
+    /// </summary>
+    /// <param name="forced">Whether to ignore cached results, true forces a request to the API, false allows for data to be retrieved from the cache. Default is false.</param>
+    /// <returns>If the user is correctly logged in, returns the <see cref="SessionsModel"/> otherwise returns null.</returns>
+    public Task<SessionsModelList?> GetUserSessions(bool forced = false);
+
+    /// <summary>
+    /// Log out a session from the API.
+    /// </summary>
+    /// <param name="sessionId">Session ID to log out.</param>
+    /// <returns>true if the logout was successful, otherwise false.</returns>
+    public Task<bool> LogoutSession(string sessionId);
 }

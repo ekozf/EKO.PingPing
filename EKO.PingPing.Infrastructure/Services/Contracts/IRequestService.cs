@@ -36,4 +36,19 @@ public interface IRequestService
     /// <param name="page">Transaction page</param>
     /// <returns><see cref="PageResponse"/> from the server.</returns>
     public Task<PageResponse> GetTransactions(string cookie, int page = 0);
+
+    /// <summary>
+    /// Get all the current sessions of the user.
+    /// </summary>
+    /// <param name="cookie">Authentication cookie of the logged in user</param>
+    /// <returns><see cref="PageResponse"/> from the server.</returns>
+    public Task<PageResponse> GetAllCurrentSessions(string cookie);
+
+    /// <summary>
+    /// Logout a session with the given session id.
+    /// </summary>
+    /// <param name="cookie">Authentication cookie of the logged in user</param>
+    /// <param name="sessionId"></param>
+    /// <returns>true if the session was logged out, otherwise false.</returns>
+    public Task<bool> LogoutSession(string cookie, string sessionId);
 }
