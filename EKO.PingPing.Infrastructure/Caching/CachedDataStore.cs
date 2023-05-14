@@ -10,4 +10,6 @@ public class CachedDataStore
     internal PurseModel? _cachedPurse;
     internal TransactionModel? _cachedTransaction;
     internal PageTransactionListModel? _cachedPageTransaction = new();
+    internal SessionsModel? _cachedSession;
+    internal SessionsModelList? _cachedPagedSessions = new();
 }

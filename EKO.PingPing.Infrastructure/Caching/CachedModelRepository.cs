@@ -17,6 +17,8 @@ public sealed class CachedModelRepository : CachedDataStore, ICachedRepository<E
             ModelTypeEnum.Purse => _cachedPurse,
             ModelTypeEnum.PagedTransaction => _cachedPageTransaction,
             ModelTypeEnum.Transaction => _cachedTransaction,
+            ModelTypeEnum.Sessions => _cachedSession,
+            ModelTypeEnum.PagedSessions => _cachedPagedSessions,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
@@ -46,6 +48,12 @@ public sealed class CachedModelRepository : CachedDataStore, ICachedRepository<E
             case ModelTypeEnum.PagedTransaction:
                 _cachedPageTransaction = null;
                 break;
+            case ModelTypeEnum.Sessions:
+                _cachedSession = null;
+                break;
+            case ModelTypeEnum.PagedSessions:
+                _cachedPagedSessions = null;
+                break;
         }
     }
 
@@ -62,6 +70,12 @@ public sealed class CachedModelRepository : CachedDataStore, ICachedRepository<E
                 break;
             case ModelTypeEnum.PagedTransaction:
                 _cachedPageTransaction = (PageTransactionListModel)value;
+                break;
+            case ModelTypeEnum.Sessions:
+                _cachedSession = (SessionsModel)value;
+                break;
+            case ModelTypeEnum.PagedSessions:
+                _cachedPagedSessions = (SessionsModelList)value;
                 break;
         }
     }
