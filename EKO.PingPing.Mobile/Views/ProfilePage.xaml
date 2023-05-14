@@ -57,6 +57,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30*" />
@@ -133,6 +134,17 @@
                     FontSize="16"
                     FontAttributes="Bold"
                     Margin="5,0,0,15"
+                    />
+
+                <Button
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Text="Bekijk Logins"
+                    FontSize="18"
+                    BackgroundColor="{DynamicResource PrimaryContainer}"
+                    TextColor="{DynamicResource Primary}"
+                    Command="{Binding ViewSessionsCommand}"
+                    Margin="30, 0"
                     />
 
             </Grid>

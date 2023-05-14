@@ -43,4 +43,10 @@ public partial class ProfileViewModel : ObservableObject
             await Shell.Current.DisplayAlert("Error", "Something went wrong while logging out.", "OK");
         }
     }
+
+    [RelayCommand]
+    private async Task ViewSessions()
+    {
+        await Shell.Current.GoToAsync(nameof(SessionsPage));
+    }
 }
