@@ -146,4 +146,55 @@ public class PingPingRequestService : IRequestService
             Page = await response.Content.ReadAsStringAsync(),
         };
     }
+
+    public async Task<PageResponse> GetAllCurrentSessions(string cookie)
+    {
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri(BASE_URL + "?view=rememberme"),
+            Headers =
+            {
+                { "user-agent", USER_AGENT },
+                { "cookie", cookie },
+                { "cache-control", "no-cache" },
+                { "pragma", "no-cache" },
+            },
+        };
+
+        using var response = await _httpClient.SendAsync(request);
+
+        await response.EnsureSuccessStatusCodeOrLogoutUser();
+
+        return new PageResponse
+        {
+            Page = await response.Content.ReadAsStringAsync(),
+        };
+    }
+
+    public async Task<bool> LogoutSession(string cookie, string sessionId)
+    {
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(BASE_URL + "?view=rememberme"),
+            Headers =
+            {
+                { "user-agent", USER_AGENT },
+                { "cookie", cookie },
+                { "cache-control", "no-cache" },
+                { "pragma", "no-cache" },
+            },
+            Content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "delete", sessionId },
+            }),
+        };
+
+        using var response = await _httpClient.SendAsync(request);
+
+        await response.EnsureSuccessStatusCodeOrLogoutUser();
+
+        return true;
+    }
 }

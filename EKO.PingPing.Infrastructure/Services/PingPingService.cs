@@ -99,16 +99,20 @@ public sealed class PingPingService : IPingPingService
         if (!await IsUserLoggedIn())
             return null;
 
+        var cached = (_cachedRepository.Get(ModelTypeEnum.PagedTransaction) as PageTransactionListModel)
+                    ?? throw new ApplicationException("List of Pages not initialized before accessing data from the cache.");
+
         // If we are not forced to get the transactions, we will try to get them from the cache first.
         if (!forced)
         {
-            var cached = (_cachedRepository.Get(ModelTypeEnum.PagedTransaction) as PageTransactionListModel)
-                                ?? throw new ApplicationException("List of Pages not initialized before accessing data from the cache.");
-
             var cachedPage = cached.PagedTransactions.Find(x => x.Page == page);
 
             if (cachedPage != null)
                 return cachedPage;
+        }
+        else
+        {
+            cached.PagedTransactions.Clear();
         }
 
         // If we are forced to get the transactions, or we don't have them in the cache, we will get them from the website.
@@ -125,5 +129,42 @@ public sealed class PingPingService : IPingPingService
         allCachedPages.PagedTransactions.Add(models);
 
         return models;
+    }
+
+    public async Task<SessionsModelList?> GetUserSessions(bool forced = false)
+    {
+        if (!await IsUserLoggedIn())
+            return null;
+
+        // If we are not forced to get the sessions, we will try to get them from the cache first.
+        if (!forced)
+        {
+            var cached = _cachedRepository.Get(ModelTypeEnum.PagedSessions) as SessionsModelList;
+
+            if (cached?.Sessions.Count > 0)
+                return cached;
+        }
+
+        // If we are forced to get the sessions, or we don't have them in the cache, we will get them from the website.
+        var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
+
+        var sessions = await _request.GetAllCurrentSessions(cookie);
+
+        var model = PageParser.ParseUserSessions(sessions);
+
+        // Save the model in the cache.
+        _cachedRepository.Set(model);
+
+        return model;
+    }
+
+    public async Task<bool> LogoutSession(string sessionId)
+    {
+        if (!await IsUserLoggedIn())
+            return false;
+
+        var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
+
+        return await _request.LogoutSession(cookie, sessionId);
     }
 }
