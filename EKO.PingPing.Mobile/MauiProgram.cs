@@ -7,6 +7,7 @@ using EKO.PingPing.Mobile.ViewModels;
 using EKO.PingPing.Mobile.Views;
 using EKO.PingPing.Shared.Models;
 using MaterialColorUtilities.Maui;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 
 namespace EKO.PingPing.Mobile;
@@ -67,6 +68,9 @@ public static class MauiProgram
 
         builder.Services.AddTransient<TransactionHistoryPage>();
         builder.Services.AddTransient<TransactionHistoryViewModel>();
+
+        builder.Services.AddTransient<SessionsPage>();
+        builder.Services.AddTransient<SessionsViewModel>();
 
         return builder.Build();
     }
