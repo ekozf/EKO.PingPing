@@ -9,8 +9,5 @@ public sealed class TransactionModel : ExpiringModelBase
     public double Price { get; set; }
     public string Description { get; set; }
 
-    public override ModelTypeEnum GetModelType()
-    {
-        return ModelTypeEnum.Transaction;
-    }
+    public override ModelTypeEnum GetModelType() => ModelTypeEnum.Transaction;
 }

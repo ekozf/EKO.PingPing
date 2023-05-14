@@ -15,8 +15,5 @@ public sealed class PagedTransactionModel : ExpiringModelBase
     public int Page { get; set; }
     public bool HasReachedEnd { get; set; }
 
-    public override ModelTypeEnum GetModelType()
-    {
-        return ModelTypeEnum.PagedTransaction;
-    }
+    public override ModelTypeEnum GetModelType() => ModelTypeEnum.PagedTransaction;
 }
