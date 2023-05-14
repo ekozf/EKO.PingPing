@@ -6,16 +6,17 @@ namespace EKO.PingPing.Infrastructure.Helpers;
 /// <summary>
 /// Web scraper that parses the HTML page and returns the desired data.
 /// </summary>
-public static partial class PageParser
+internal static partial class PageParser
 {
     /// <summary>
     /// Checks if the login was valid.
     /// </summary>
     /// <param name="page">Page to scrape</param>
     /// <returns>true if the login has redirected to the main page, false if we got an error.</returns>
-    public static bool LoginWasValid(string page)
+    internal static bool LoginWasValid(string page)
     {
-        return !page.Contains("Error Invalid Password");
+        return !page.Contains("Error Invalid Password", StringComparison.InvariantCultureIgnoreCase)
+            && !page.Contains("Error Specified account does not exist", StringComparison.InvariantCultureIgnoreCase);
     }
 
     /// <summary>
@@ -23,7 +24,7 @@ public static partial class PageParser
     /// </summary>
     /// <param name="response"><see cref="PageResponse"/> with the retrieved page</param>
     /// <returns>Scraped and parsed purse.</returns>
-    public static PurseModel ParseUserPurse(PageResponse response)
+    internal static PurseModel ParseUserPurse(PageResponse response)
     {
         var page = response.Page;
 
@@ -43,7 +44,7 @@ public static partial class PageParser
     /// <param name="response"><see cref="PageResponse"/> with the retrieved page</param>
     /// <param name="page">Page number to get</param>
     /// <returns>List of transactions that the user has made</returns>
-    public static PagedTransactionModel ParseTransactions(PageResponse response, int page)
+    internal static PagedTransactionModel ParseTransactions(PageResponse response, int page)
     {
         // Remove the tabs from the page and split it into lines
         var responsePage = response.Page.Replace("\t", "").Split('\n');
@@ -65,7 +66,7 @@ public static partial class PageParser
         {
             transactions.Transactions.Add(new TransactionModel
             {
-                Date = ConvertTransactionDateToDateTime(entry.Date),
+                Date = ConvertStringDateToDateTime(entry.Date),
                 Description = entry.Description,
                 Price = ConvertTransactionPriceToDouble(entry.Price),
                 Location = entry.Location
@@ -79,5 +80,53 @@ public static partial class PageParser
         }
 
         return transactions;
+    }
+
+    /// <summary>
+    /// Parses the page and returns the data of the user's sessions.
+    /// </summary>
+    /// <param name="sessions"><see cref="PageResponse"/> with the retrieved page</param>
+    /// <returns><see cref="SessionsModelList"/> that has all the current user sessions.</returns>
+    internal static SessionsModelList ParseUserSessions(PageResponse sessions)
+    {
+        var responsePage = sessions.Page.Replace("\t", "").Split('\n');
+
+        // DateTimes list has an empty entry somewhere, get its index
+        var dateTimes = ParseSessionDateTimes(responsePage);
+
+        var emptyIndex = dateTimes.FindIndex(x => x?.Length == 0);
+
+        // Clear the empty entry
+        var userAgents = ParseSessionUserAgents(responsePage);
+
+        // Remove the empty entry
+        userAgents[emptyIndex] = string.Empty;
+
+        // Add a empty entry to the list so we can enumerate them together
+        var sessionIds = ParseSessionIds(responsePage);
+
+        sessionIds.Insert(emptyIndex, string.Empty);
+
+        // Combine the data into one list so we can enumerate them together
+        var dataZip = dateTimes
+                        .Zip(userAgents, (Date, UserAgent) => new { Date, UserAgent })
+                        .Zip(sessionIds, (x, SessionId) => new { x.Date, x.UserAgent, SessionId });
+
+        var sessionModelList = new SessionsModelList();
+
+        foreach (var entry in dataZip)
+        {
+            if (string.IsNullOrWhiteSpace(entry.Date))
+                continue;
+
+            sessionModelList.Sessions.Add(new SessionsModel
+            {
+                LastActiveDate = ConvertStringDateToDateTime(entry.Date, usesDashes: false),
+                UserAgent = entry.UserAgent,
+                SessionId = entry.SessionId
+            });
+        }
+
+        return sessionModelList;
     }
 }

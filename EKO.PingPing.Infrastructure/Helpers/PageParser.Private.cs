@@ -2,7 +2,7 @@
 
 namespace EKO.PingPing.Infrastructure.Helpers;
 
-public static partial class PageParser
+internal static partial class PageParser
 {
     /// <summary>
     /// Gets the balance from the page.
@@ -93,11 +93,14 @@ public static partial class PageParser
     /// </summary>
     /// <param name="date">Date string to convert</param>
     /// <returns><see cref="DateTime"/> of the date string</returns>
-    private static DateTime ConvertTransactionDateToDateTime(string date)
+    private static DateTime ConvertStringDateToDateTime(string date, bool usesDashes = true)
     {
         var trimmedDate = date.Trim();
 
-        return DateTime.ParseExact(trimmedDate, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+        if (usesDashes)
+            return DateTime.ParseExact(trimmedDate, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+        else
+            return DateTime.ParseExact(trimmedDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -219,5 +222,132 @@ public static partial class PageParser
         }
 
         return locations;
+    }
+
+    /// <summary>
+    /// Parses the session date times from the page.
+    /// </summary>
+    /// <param name="page">Page where all the date times will be scraped from</param>
+    /// <returns>List of scraped <see cref="DateTime"/></returns>
+    private static List<string> ParseSessionDateTimes(string[] page)
+    {
+        var indexes = new List<int>();
+
+        // Get all the indexes of the session date times
+        indexes = page
+                    .Select((value, i) => new { i, value })
+                    .Where(x => x.value.Contains("nowrap"))
+                    .Select(x => x.i)
+                    .ToList();
+
+        var dateTimes = new List<string>();
+
+        // Skip every other index because it's the IP address, which we don't need
+        var skipNext = false;
+
+        // Skip the first index because it's not relevant
+        foreach (var i in indexes.Skip(1))
+        {
+            if (skipNext)
+            {
+                skipNext = false;
+                continue;
+            }
+
+            var tag = page[i];
+
+            var tdTagEnd = tag.IndexOf('>', StringComparison.Ordinal) + 1;
+            var nextTagBegin = tag.IndexOf('<', tdTagEnd);
+
+            // Remove the HTML tags
+            var dateTime = tag[tdTagEnd..nextTagBegin];
+
+            dateTimes.Add(dateTime);
+
+            skipNext = true;
+        }
+
+        return dateTimes;
+    }
+
+    /// <summary>
+    /// Parses the session User Agents from the page.
+    /// </summary>
+    /// <param name="page">Page where all the date times will be scraped from</param>
+    /// <returns>List of scraped user agents</returns>
+    private static List<string> ParseSessionUserAgents(string[] page)
+    {
+        var indexes = new List<int>();
+
+        // Get all the indexes of the session user agents
+        indexes = page
+                    .Select((value, i) => new { i, value })
+                    .Where(x => x.value.Contains("nowrap"))
+                    .Select(x => x.i)
+                    .ToList();
+
+        var userAgents = new List<string>();
+
+        // Skip every other index because it's the IP address, which we don't need.
+        // This time, we need to skip the first index because it's the date time.
+        // The user agent field is after the IP address field.
+        var skipNext = true;
+
+        // Skip the first index because it's not relevant
+        foreach (var i in indexes.Skip(1))
+        {
+            if (skipNext)
+            {
+                skipNext = false;
+                continue;
+            }
+
+            var tag = page[i + 1];
+
+            var tdTagEnd = tag.IndexOf('>', StringComparison.Ordinal) + 1;
+            var nextTagBegin = tag.IndexOf('<', tdTagEnd);
+
+            // Remove the HTML tags
+            var userAgent = tag[tdTagEnd..nextTagBegin];
+
+            userAgents.Add(userAgent);
+
+            skipNext = true;
+        }
+
+        return userAgents;
+    }
+
+    /// <summary>
+    /// Parses the session Ids from the page.
+    /// </summary>
+    /// <param name="responsePage">Page where all the date times will be scraped from</param>
+    /// <returns>List of scraped user agents</returns>
+    private static List<string> ParseSessionIds(string[] responsePage)
+    {
+        var indexes = new List<int>();
+
+        // Get all the indexes of the session ids
+        indexes = responsePage
+                    .Select((value, i) => new { i, value })
+                    .Where(x => x.value.Contains("delete"))
+                    .Select(x => x.i)
+                    .ToList();
+
+        var sessionIds = new List<string>();
+
+        foreach (var i in indexes)
+        {
+            var tag = responsePage[i];
+
+            var valueTagBegin = tag.IndexOf("value=\"", StringComparison.Ordinal) + 7;
+            var valueTagEnd = tag.IndexOf("\"", valueTagBegin, StringComparison.Ordinal);
+
+            var sessionId = tag[valueTagBegin..valueTagEnd];
+
+            sessionIds.Add(sessionId);
+        }
+
+        return sessionIds;
     }
 }

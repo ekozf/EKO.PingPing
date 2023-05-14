@@ -2,7 +2,7 @@
 
 namespace EKO.PingPing.Infrastructure.Helpers;
 
-public static partial class PageParser
+internal static partial class PageParser
 {
     #region Profile Regex
 
