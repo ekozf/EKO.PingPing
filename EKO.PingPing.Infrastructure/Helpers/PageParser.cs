@@ -116,13 +116,14 @@ internal static partial class PageParser
 
         foreach (var entry in dataZip)
         {
+            // Skip the empty entry
             if (string.IsNullOrWhiteSpace(entry.Date))
                 continue;
 
             sessionModelList.Sessions.Add(new SessionsModel
             {
                 LastActiveDate = ConvertStringDateToDateTime(entry.Date, usesDashes: false),
-                UserAgent = entry.UserAgent,
+                UserAgent = UserAgentParser.GetUserAgent(entry.UserAgent) ?? new ReadableUserAgent(),
                 SessionId = entry.SessionId
             });
         }
