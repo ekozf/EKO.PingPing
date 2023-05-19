@@ -6,8 +6,8 @@
     xmlns:local="clr-namespace:EKO.PingPing.Mobile.Views"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarBackgroundColor="{DynamicResource Surface2}"
-    Shell.ForegroundColor="{DynamicResource InversePrimary}"
-    Shell.TabBarForegroundColor="{DynamicResource Primary}">
+    Shell.ForegroundColor="{DynamicResource Primary}"
+    Shell.BackgroundColor="{DynamicResource Surface3}">
 
     <ShellContent
                 ContentTemplate="{DataTemplate local:LoginPage}"
