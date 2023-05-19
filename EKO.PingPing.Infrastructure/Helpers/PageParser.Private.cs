@@ -20,7 +20,7 @@ internal static partial class PageParser
         var match = matches[0].Value[1..];
 
         // Replace the comma with a dot, so we can parse the string to a double
-        var result = double.TryParse(match.Replace(',', '.'), out var balance);
+        var result = double.TryParse(match.Replace(',', '.'), NumberFormatInfo.InvariantInfo, out var balance);
 
         if (!result)
             return 0;
@@ -113,7 +113,7 @@ internal static partial class PageParser
         var trimmedPrice = price.Trim();
 
         // Remove the currency symbol from the price
-        return double.Parse(trimmedPrice[1..].Replace(',', '.'), CultureInfo.InvariantCulture);
+        return double.Parse(trimmedPrice[1..].Replace(',', '.'), NumberFormatInfo.InvariantInfo);
     }
 
     /// <summary>
