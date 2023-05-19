@@ -10,8 +10,9 @@
              BackgroundColor="{DynamicResource Surface3}">
 
     <ContentPage.Behaviors>
-        <!-- StatusBarColor is set to Transparent in MauiProgram.cs -->
-        <toolkit:StatusBarBehavior StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:StatusBarBehavior
+            StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}"
+            StatusBarColor="{StaticResource Surface3}" />
         <toolkit:EventToCommandBehavior
             EventName="Appearing"
             Command="{Binding LoadUserSessionsCommand}" />
@@ -22,7 +23,7 @@
         ItemsSource="{Binding Sessions}">
 
         <CollectionView.Header>
-            <VerticalStackLayout Margin="20, 200, 20, 50">
+            <VerticalStackLayout Margin="20, 80, 20, 50">
                 <Label
                     Text="Andere Logins:"
                     TextColor="{DynamicResource Primary}"
@@ -34,10 +35,10 @@
                     Text="De huidige login wordt niet getoont, u kan uitloggen via de knop op de profiel pagina."
                     TextColor="{DynamicResource Primary}"
                     VerticalOptions="Center" 
-                    FontSize="18"
+                    FontSize="16"
                     FontAttributes="Bold"
-                    Opacity=".75"
-                    Margin="5,0,0,0" />
+                    Opacity=".66"
+                    Margin="5,5,0,0" />
             </VerticalStackLayout>
         </CollectionView.Header>
 

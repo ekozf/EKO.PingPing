@@ -8,8 +8,9 @@
              x:DataType="viewmodels:LoginViewModel"
              BackgroundColor="{DynamicResource Surface1}">
     <ContentPage.Behaviors>
-        <!-- StatusBarColor is set to Transparent in MauiProgram.cs -->
-        <toolkit:StatusBarBehavior StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:StatusBarBehavior
+            StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}"
+            StatusBarColor="{StaticResource Surface3}" />
         <toolkit:EventToCommandBehavior
             EventName="Appearing"
             Command="{Binding CheckUserLoggedInCommand}" />

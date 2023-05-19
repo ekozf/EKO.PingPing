@@ -29,23 +29,32 @@ public static class MauiProgram
                 fonts.AddFont("Roboto-MediumItalic.ttf", "RobotoMediumItalic");
                 fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
                 fonts.AddFont("Roboto-BoldItalic.ttf", "RobotoBoldItalic");
-            })
-            .ConfigureLifecycleEvents(events =>
-            {
-#if ANDROID 
-                //Sets the status bar to transparent on Android. This is required for the Material Color Utilities to work properly.
-                events.AddAndroid(android => android.OnCreate((activity, bundle) => MakeStatusBarTranslucent(activity)));
-
-                static void MakeStatusBarTranslucent(Android.App.Activity activity)
-                {
-                    activity.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
-
-                    activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
-
-                    activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
-                }
-#endif
             });
+//            .ConfigureLifecycleEvents(events =>
+//            {
+//#if ANDROID 
+//                //Sets the status bar to transparent on Android. This is required for the Material Color Utilities to work properly.
+//                //events.AddAndroid(android => android.OnCreate((activity, bundle) => MakeStatusBarTranslucent(activity)));
+
+//                //static void MakeStatusBarTranslucent(Android.App.Activity activity)
+//                //{
+//                    //activity.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
+
+//                    //activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+
+//                    //activity.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+
+//                    //activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+
+//                    //activity.Window.SetNavigationBarColor();
+//                //}
+
+//                //events.AddAndroid(android => android.OnCreate((activity, bundle) =>
+//                //{
+//                //    activity.Window.DecorView.
+//                //}));
+//#endif
+//            });
 
 #if DEBUG
         builder.Logging.AddDebug();

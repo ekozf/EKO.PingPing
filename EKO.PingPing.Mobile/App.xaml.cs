@@ -8,6 +8,8 @@ namespace EKO.PingPing.Mobile;
 
 public partial class App : Application
 {
+    private readonly MaterialColorService _materialColorService;
+
     public App(MaterialColorService materialColorService)
     {
         InitializeComponent();
@@ -23,6 +25,8 @@ public partial class App : Application
         });
 #endif
         MainPage = new AppShell();
+
+        _materialColorService = materialColorService;
     }
 
     protected async override void OnStart()
@@ -34,6 +38,10 @@ public partial class App : Application
 #endif
             await Shell.Current.GoToAsync($"//{nameof(PursePage)}");
         }
+
+#if ANDROID
+        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(_materialColorService.SchemeMaui.Surface2.ToPlatform());
+#endif
 
         base.OnStart();
     }
