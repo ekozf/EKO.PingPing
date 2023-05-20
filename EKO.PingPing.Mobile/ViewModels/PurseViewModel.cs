@@ -76,11 +76,11 @@ public partial class PurseViewModel : ObservableObject
 
         var balance = 0.0;
 
-        for (var i = 0; i < 25; i++)
+        for (var i = 0; i < 15; i++)
         {
-            balance += value / 25;
+            balance += value / 15;
             Balance = balance;
-            await Task.Delay(20);
+            await Task.Delay(33);
         }
 
         Balance = value;
