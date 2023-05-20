@@ -47,12 +47,15 @@
 
             <Label Text="Gebruikersnaam" FontSize="18" FontFamily="RobotoBold" TextColor="{DynamicResource Primary}" Margin="5, 0, 0, 10" />
 
-            <Frame
-                BorderColor="Transparent"
+            <Border
+                StrokeThickness="0"
                 Padding="16, 4"
                 Margin="0"
-                IsClippedToBounds="True"
                 BackgroundColor="{DynamicResource Surface1}">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
 
                 <components:BorderlessEntry
                     toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference PasswordEntry}"
@@ -65,7 +68,7 @@
                     PlaceholderColor="{DynamicResource Secondary}"
                     TextColor="{DynamicResource Primary}"
                     BackgroundColor="Transparent" />
-            </Frame>
+            </Border>
 
         </VerticalStackLayout>
 
@@ -73,12 +76,15 @@
 
             <Label Text="Wachtwoord" FontSize="18" FontFamily="RobotoBold" TextColor="{DynamicResource Primary}" Margin="5, 0, 0, 10" />
 
-            <Frame
-                BorderColor="Transparent"
+            <Border
+                StrokeThickness="0"
                 Padding="16, 4"
                 Margin="0"
-                IsClippedToBounds="True"
                 BackgroundColor="{DynamicResource Surface1}">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
 
                 <components:BorderlessEntry
                     x:Name="PasswordEntry"
@@ -94,7 +100,7 @@
                     TextColor="{DynamicResource Primary}"
                     BackgroundColor="Transparent">
                 </components:BorderlessEntry>
-            </Frame>
+            </Border>
 
         </VerticalStackLayout>
 

@@ -44,54 +44,60 @@
 
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="{x:Type models:SessionsModel}">
-                
-                <Border StrokeThickness="0" BackgroundColor="{DynamicResource Surface1}" Margin="15,10" Padding="5">
+
+                <Border
+                    StrokeThickness="0"
+                    BackgroundColor="{DynamicResource Surface1}"
+                    Margin="15,10"
+                    Padding="5">
+
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20" />
                     </Border.StrokeShape>
 
-                    <VerticalStackLayout BackgroundColor="{DynamicResource Surface1}" Padding="10, 10, 3, 10" Margin="25">
+                    <Grid
+                        BackgroundColor="{DynamicResource Surface1}"
+                        Padding="10, 10, 3, 10"
+                        Margin="25">
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75*" />
-                                <ColumnDefinition Width="25*" />
-                            </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75*" />
+                            <ColumnDefinition Width="25*" />
+                        </Grid.ColumnDefinitions>
 
-                            <VerticalStackLayout Grid.Row="0" Grid.Column="0" VerticalOptions="Center">
-                                <Label
-                                    Text="{Binding UserAgent}"
-                                    FontSize="14"
-                                    TextColor="{DynamicResource Primary}"
-                                    FontAttributes="Bold" />
+                        <Label
+                            Text="{Binding UserAgent}"
+                            FontSize="14"
+                            TextColor="{DynamicResource Primary}"
+                            VerticalOptions="Start"
+                            FontAttributes="Bold" />
 
-                                <Label
-                                    Text="{Binding LastActiveDate, StringFormat='{0:dd-MM-yyy HH:mm}'}"
-                                    FontSize="12" 
-                                    TextColor="{DynamicResource Primary}"
-                                    Opacity=".75" />
-                            </VerticalStackLayout>
+                        <Label
+                            Text="{Binding LastActiveDate, StringFormat='{0:dd-MM-yyy HH:mm}'}"
+                            FontSize="12" 
+                            TextColor="{DynamicResource Primary}"
+                            VerticalOptions="End"
+                            Opacity=".75" />
 
-                            <Button
-                                Grid.Column="1"
-                                Text="&#10006;"
-                                TextColor="{DynamicResource Error}"
-                                Padding="30, 0, 30, 1"
-                                FontSize="16"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                CornerRadius="20"
-                                BackgroundColor="{DynamicResource ErrorContainer}"
-                                Command="{Binding LogOutSessionCommand, Source={RelativeSource AncestorType={x:Type viewmodels:SessionsViewModel}}}"
-                                CommandParameter="{Binding SessionId}"
-                                />
+                        <Button
+                            Grid.Column="1"
+                            Text="&#10006;"
+                            TextColor="{DynamicResource Error}"
+                            Padding="30, 0, 30, 1"
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            CornerRadius="20"
+                            BackgroundColor="{DynamicResource ErrorContainer}"
+                            Command="{Binding LogOutSessionCommand, Source={RelativeSource AncestorType={x:Type viewmodels:SessionsViewModel}}}"
+                            CommandParameter="{Binding SessionId}" />
 
-                        </Grid>
-                    </VerticalStackLayout>
+                    </Grid>
+
                 </Border>
                 
             </DataTemplate>

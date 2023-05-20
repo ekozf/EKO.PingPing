@@ -12,63 +12,69 @@
         <converters:BalanceToColorConverter x:Key="BalanceToColorConverter" />
     </ContentView.Resources>
 
-    <Border StrokeThickness="0" BackgroundColor="{DynamicResource Surface1}" Margin="15,10" Padding="5">
+    <Border
+        StrokeThickness="0"
+        BackgroundColor="{DynamicResource Surface1}"
+        Margin="15,10"
+        Padding="5">
+        
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="20" />
         </Border.StrokeShape>
 
-        <VerticalStackLayout BackgroundColor="{DynamicResource Surface1}" Padding="10, 10, 3, 10" Margin="25">
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+        <Grid
+            BackgroundColor="{DynamicResource Surface1}"
+            Padding="10, 10, 3, 10"
+            Margin="25">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="65*" />
-                    <ColumnDefinition Width="35*" />
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="35*" />
+            </Grid.ColumnDefinitions>
 
-                <VerticalStackLayout Grid.Row="0" Grid.Column="0" VerticalOptions="Center">
-                    <Label
-                        Text="{Binding Date, StringFormat='{0:dd-MM-yyy HH:mm}'}"
-                        TextColor="{DynamicResource Primary}"
-                        FontSize="16"
-                        Margin="0,0,0,5"
-                        />
-                    <Label
-                        Text="{Binding Location}"
-                        TextColor="{DynamicResource Primary}"
-                        FontSize="13"
-                        Opacity=".66"
-                        />
-                </VerticalStackLayout>
+            <Label
+                Text="{Binding Date, StringFormat='{0:dd-MM-yyy HH:mm}'}"
+                TextColor="{DynamicResource Primary}"
+                FontSize="16"
+                Margin="0,0,0,5"
+                VerticalOptions="Start"
+                />
+            
+            <Label
+                Text="{Binding Location}"
+                TextColor="{DynamicResource Primary}"
+                FontSize="13"
+                Opacity=".66"
+                VerticalOptions="End"
+                />
 
-                <Border
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Padding="5"
-                    BackgroundColor="{Binding Price, Converter={StaticResource BalanceToColorConverter}}" 
-                    StrokeThickness="0"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Center"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20" />
-                    </Border.StrokeShape>
+            <Border
+                Grid.Column="1"
+                Padding="5"
+                BackgroundColor="{Binding Price, Converter={StaticResource BalanceToColorConverter}}" 
+                StrokeThickness="0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center"
+                >
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
 
-                    <Label
-                        Margin="10, 3"
-                        Text="{Binding Price, Converter={StaticResource PurseBalanceConverter}}"
-                        FontSize="20"
-                        HorizontalOptions="Center"
-                        FontAttributes="Bold"
-                        TextColor="White" />
-                </Border>
+                <Label
+                    Margin="10, 3"
+                    Text="{Binding Price, Converter={StaticResource PurseBalanceConverter}}"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    FontAttributes="Bold"
+                    TextColor="White" />
+            </Border>
 
-            </Grid>
-
-        </VerticalStackLayout>
+        </Grid>
     </Border>
 
 </ContentView>
