@@ -80,7 +80,7 @@ public sealed class PingPingService : IPingPingService
     public async Task<bool> DoUserLogout()
     {
         if (!await IsUserLoggedIn())
-            return false;
+            return true;
 
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
 

@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EKO.PingPing.Infrastructure.Services.Contracts;
-using EKO.PingPing.Mobile.Views;
 
 namespace EKO.PingPing.Mobile.ViewModels;
 
@@ -30,7 +29,7 @@ public sealed partial class LoginViewModel : ObservableObject
 
         if (isLoggedIn)
         {
-            await RedirectToPurse();
+            RedirectToPurse();
         }
     }
 
@@ -43,7 +42,7 @@ public sealed partial class LoginViewModel : ObservableObject
 
         if (isLoggedIn)
         {
-            await RedirectToPurse();
+            RedirectToPurse();
         }
         else
         {
@@ -51,11 +50,8 @@ public sealed partial class LoginViewModel : ObservableObject
         }
     }
 
-    private async Task RedirectToPurse()
+    private void RedirectToPurse()
     {
-#if WINDOWS
-        await Task.Delay(250);
-#endif
-        await Shell.Current.GoToAsync($"//{nameof(PursePage)}");
+        Application.Current.MainPage = new AppShell();
     }
 }

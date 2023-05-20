@@ -1,4 +1,5 @@
 ﻿using EKO.PingPing.Mobile.Components;
+using EKO.PingPing.Mobile.ViewModels;
 using EKO.PingPing.Mobile.Views;
 using EKO.PingPing.Shared;
 using MaterialColorUtilities.Maui;
@@ -10,9 +11,11 @@ public partial class App : Application
 {
     private readonly MaterialColorService _materialColorService;
 
-    public App(MaterialColorService materialColorService)
+    public App(MaterialColorService materialColorService, LoginPage page)
     {
         InitializeComponent();
+
+        _materialColorService = materialColorService;
 
 #if ANDROID
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
@@ -24,9 +27,13 @@ public partial class App : Application
             }
         });
 #endif
-        MainPage = new AppShell();
+        if (string.IsNullOrEmpty(SecureStorage.GetAsync(AppConsts.COOKIE_KEY).Result))
+        {
+            MainPage = page;
+            return;
+        }
 
-        _materialColorService = materialColorService;
+        MainPage = new AppShell();
     }
 
     protected async override void OnStart()
@@ -40,7 +47,7 @@ public partial class App : Application
         }
 
 #if ANDROID
-        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(_materialColorService.SchemeMaui.Surface2.ToPlatform());
+        Platform.CurrentActivity.Window.SetNavigationBarColor(_materialColorService.SchemeMaui.Surface2.ToPlatform());
 #endif
 
         base.OnStart();

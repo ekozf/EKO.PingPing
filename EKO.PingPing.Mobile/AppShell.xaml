@@ -9,10 +9,6 @@
     Shell.ForegroundColor="{DynamicResource Primary}"
     Shell.BackgroundColor="{DynamicResource Surface3}">
 
-    <ShellContent
-                ContentTemplate="{DataTemplate local:LoginPage}"
-                Route="LoginPage" />
-
     <TabBar>
         <Tab Title="Purse"
              Icon="wallet.png">

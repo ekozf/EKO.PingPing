@@ -89,7 +89,7 @@ public class PingPingRequestService : IRequestService
 
         using var response = await _httpClient.SendAsync(request);
 
-        await response.EnsureSuccessStatusCodeOrLogoutUser();
+        await response.LogOutUserIfInvalidResponse();
 
         return new PageResponse
         {
@@ -139,7 +139,7 @@ public class PingPingRequestService : IRequestService
 
         using var response = await _httpClient.SendAsync(request);
 
-        await response.EnsureSuccessStatusCodeOrLogoutUser();
+        await response.LogOutUserIfInvalidResponse();
 
         return new PageResponse
         {
@@ -164,7 +164,7 @@ public class PingPingRequestService : IRequestService
 
         using var response = await _httpClient.SendAsync(request);
 
-        await response.EnsureSuccessStatusCodeOrLogoutUser();
+        await response.LogOutUserIfInvalidResponse();
 
         return new PageResponse
         {
@@ -193,7 +193,7 @@ public class PingPingRequestService : IRequestService
 
         using var response = await _httpClient.SendAsync(request);
 
-        await response.EnsureSuccessStatusCodeOrLogoutUser();
+        await response.LogOutUserIfInvalidResponse();
 
         return true;
     }

@@ -6,16 +6,22 @@ using EKO.PingPing.Shared.Models;
 
 namespace EKO.PingPing.Mobile.ViewModels;
 
+[QueryProperty(nameof(ForceLogoutUser), nameof(ForceLogoutUser))]
 public partial class ProfileViewModel : ObservableObject
 {
     private readonly IPingPingService _pingPingService;
+    private readonly LoginPage _loginPage;
 
     [ObservableProperty]
     private PurseModel _purse;
 
-    public ProfileViewModel(IPingPingService pingPingService)
+    [ObservableProperty]
+    private bool _forceLogoutUser;
+
+    public ProfileViewModel(IPingPingService pingPingService, LoginPage loginPage)
     {
         _pingPingService = pingPingService;
+        _loginPage = loginPage;
     }
 
     [RelayCommand]
@@ -36,7 +42,7 @@ public partial class ProfileViewModel : ObservableObject
 
         if (wasLoggedOut)
         {
-            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            RedirectLoggedOutUser();
         }
         else
         {
@@ -48,5 +54,18 @@ public partial class ProfileViewModel : ObservableObject
     private async Task ViewSessions()
     {
         await Shell.Current.GoToAsync(nameof(SessionsPage));
+    }
+
+    private void RedirectLoggedOutUser()
+    {
+        Application.Current.MainPage = _loginPage;
+    }
+
+    partial void OnForceLogoutUserChanged(bool value)
+    {
+        if (value)
+        {
+            RedirectLoggedOutUser();
+        }
     }
 }
