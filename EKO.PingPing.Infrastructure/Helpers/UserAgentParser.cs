@@ -56,6 +56,11 @@ internal static class UserAgentParser
             return "Opera";
         }
 
+        if (userAgent.Contains("Edg", StringComparison.InvariantCultureIgnoreCase))
+        {
+            return "Edge";
+        }
+
         if (userAgent.Contains("CriOS", StringComparison.InvariantCultureIgnoreCase) || userAgent.Contains("Chrome", StringComparison.InvariantCultureIgnoreCase))
         {
             return "Chrome";

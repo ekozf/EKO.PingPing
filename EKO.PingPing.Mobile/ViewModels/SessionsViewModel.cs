@@ -20,11 +20,21 @@ public partial class SessionsViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadUserSessions()
     {
-        var result = await _pingPingService.GetUserSessions();
+        var result = await _pingPingService.GetUserSessions(forced: true);
 
         if (result is null)
             return;
 
         Sessions = result.Sessions;
+    }
+
+    [RelayCommand]
+    private async Task LogOutSession(string sessionId)
+    {
+        await _pingPingService.LogoutSession(sessionId);
+
+        await Shell.Current.DisplayAlert("Success", "Session was successfully logged out.", "OK");
+
+        await LoadUserSessions();
     }
 }
