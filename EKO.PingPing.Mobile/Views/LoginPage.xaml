@@ -6,15 +6,17 @@
              xmlns:components="clr-namespace:EKO.PingPing.Mobile.Components"
              x:Class="EKO.PingPing.Mobile.Views.LoginPage"
              x:DataType="viewmodels:LoginViewModel"
-             BackgroundColor="{DynamicResource Surface1}">
+             BackgroundColor="{DynamicResource Surface3}">
+    
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior
             StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}"
-            StatusBarColor="{StaticResource Surface3}" />
+            StatusBarColor="{DynamicResource Surface3}" />
         <toolkit:EventToCommandBehavior
             EventName="Appearing"
             Command="{Binding CheckUserLoggedInCommand}" />
     </ContentPage.Behaviors>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
@@ -50,7 +52,7 @@
                 Padding="16, 4"
                 Margin="0"
                 IsClippedToBounds="True"
-                BackgroundColor="{DynamicResource Surface5}">
+                BackgroundColor="{DynamicResource Surface1}">
 
                 <components:BorderlessEntry
                     toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference PasswordEntry}"
@@ -76,7 +78,7 @@
                 Padding="16, 4"
                 Margin="0"
                 IsClippedToBounds="True"
-                BackgroundColor="{DynamicResource Surface5}">
+                BackgroundColor="{DynamicResource Surface1}">
 
                 <components:BorderlessEntry
                     x:Name="PasswordEntry"
