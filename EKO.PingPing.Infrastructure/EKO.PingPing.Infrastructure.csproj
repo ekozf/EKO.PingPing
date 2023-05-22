@@ -19,14 +19,14 @@
 	  <RunAOTCompilation>False</RunAOTCompilation>
 	  <EnableLLVM>False</EnableLLVM>
 	  <PublishTrimmed>False</PublishTrimmed>
-	  <AndroidEnableSGenConcurrent>True</AndroidEnableSGenConcurrent>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <EnableLLVM>False</EnableLLVM>
-	  <PublishTrimmed>False</PublishTrimmed>
+	  <RunAOTCompilation>True</RunAOTCompilation>
+	  <EnableLLVM>True</EnableLLVM>
+	  <PublishTrimmed>True</PublishTrimmed>
 	  <AndroidEnableSGenConcurrent>True</AndroidEnableSGenConcurrent>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -29,22 +29,27 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
 	  <ApplicationId>com.eko.pingpingding.mobile</ApplicationId>
-	  <EnableLLVM>False</EnableLLVM>
 	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
 	  <ApplicationId>com.eko.pingpingding.mobile</ApplicationId>
-	  <EnableLLVM>False</EnableLLVM>
+	  <EnableLLVM>True</EnableLLVM>
 	  <RunAOTCompilation>True</RunAOTCompilation>
+	  <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.22000.0|AnyCPU'">
 	  <ApplicationId>com.eko.pingpingding.mobile</ApplicationId>
+	  <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.22000.0|AnyCPU'">
 	  <ApplicationId>com.eko.pingpingding.mobile</ApplicationId>
+	  <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
