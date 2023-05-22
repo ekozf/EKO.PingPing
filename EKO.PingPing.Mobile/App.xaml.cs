@@ -1,5 +1,4 @@
 ﻿using EKO.PingPing.Mobile.Components;
-using EKO.PingPing.Mobile.ViewModels;
 using EKO.PingPing.Mobile.Views;
 using EKO.PingPing.Shared;
 using MaterialColorUtilities.Maui;

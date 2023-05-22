@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
              xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
              xmlns:controls="clr-namespace:EKO.PingPing.Mobile.Controls"
+             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
              x:Class="EKO.PingPing.Mobile.Views.PursePage"
              x:DataType="viewmodels:PurseViewModel"
              BackgroundColor="{DynamicResource Surface3}">
@@ -95,7 +96,7 @@
                             </VerticalStackLayout.Shadow>
 
                             <Label
-                                Text="Uw saldo is:"
+                                Text="{x:Static res:AppResources.PursePage_Subheader_YourBalance}"
                                 TextColor="{DynamicResource Primary}"
                                 Opacity=".75"
                                 VerticalOptions="Center" 
@@ -127,7 +128,7 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Margin="5,0,0,0"
-                        Text="Recente Transacties"
+                        Text="{x:Static res:AppResources.PursePage_Subheader_RecentTransactions}"
                         TextColor="{DynamicResource Primary}"
                         Opacity=".75"
                         VerticalOptions="Center" 

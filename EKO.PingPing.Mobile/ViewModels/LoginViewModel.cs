@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EKO.PingPing.Infrastructure.Services.Contracts;
+using EKO.PingPing.Mobile.Resources.Localization;
 
 namespace EKO.PingPing.Mobile.ViewModels;
 
@@ -46,7 +47,10 @@ public sealed partial class LoginViewModel : ObservableObject
         }
         else
         {
-            await Shell.Current.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
+            await Shell.Current.DisplayAlert(
+                AppResources.ValidationError_UserLoginFailed_Title,
+                AppResources.ValidationError_UserLoginFailed_Message,
+                "OK");
         }
     }
 

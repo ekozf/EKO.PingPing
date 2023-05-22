@@ -5,6 +5,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
              xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
              x:Class="EKO.PingPing.Mobile.Views.SessionsPage"
              x:DataType="viewmodels:SessionsViewModel"
              BackgroundColor="{DynamicResource Surface3}">
@@ -25,14 +26,14 @@
         <CollectionView.Header>
             <VerticalStackLayout Margin="20, 80, 20, 50">
                 <Label
-                    Text="Andere Logins:"
+                    Text="{x:Static res:AppResources.SessionsPage_Header}"
                     TextColor="{DynamicResource Primary}"
                     VerticalOptions="Center" 
                     FontSize="28"
                     FontAttributes="Bold"
                     Margin="5,0,0,0" />
                 <Label
-                    Text="De huidige login wordt niet getoont, u kan uitloggen via de knop op de profiel pagina."
+                    Text="{x:Static res:AppResources.SessionsPage_Subheader}"
                     TextColor="{DynamicResource Primary}"
                     VerticalOptions="Center" 
                     FontSize="16"

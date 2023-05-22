@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EKO.PingPing.Infrastructure.Services.Contracts;
+using EKO.PingPing.Mobile.Resources.Localization;
 using EKO.PingPing.Mobile.Views;
 using EKO.PingPing.Shared.Models;
 
@@ -46,7 +47,10 @@ public partial class ProfileViewModel : ObservableObject
         }
         else
         {
-            await Shell.Current.DisplayAlert("Error", "Something went wrong while logging out.", "OK");
+            await Shell.Current.DisplayAlert(
+                AppResources.ValidationError_Generic_Error,
+                AppResources.ValdiationError_UserLogoutFailed_Message,
+                "OK");
         }
     }
 

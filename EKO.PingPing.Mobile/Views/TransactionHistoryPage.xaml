@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
              xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
              xmlns:controls="clr-namespace:EKO.PingPing.Mobile.Controls"
+             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
              x:Class="EKO.PingPing.Mobile.Views.TransactionHistoryPage"
              x:DataType="viewmodels:TransactionHistoryViewModel"
              BackgroundColor="{DynamicResource Surface3}">
@@ -38,7 +39,7 @@
             <CollectionView.Header>
                 <VerticalStackLayout Margin="20, 200, 20, 50">
                     <Label
-                        Text="Uw eerdere Transacties:"
+                        Text="{x:Static res:AppResources.TransactionHistoryPage_Header}"
                         TextColor="{DynamicResource Primary}"
                         VerticalOptions="Center" 
                         FontSize="28"

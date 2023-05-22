@@ -4,25 +4,26 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:EKO.PingPing.Mobile.Views"
+    xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarBackgroundColor="{DynamicResource Surface2}"
     Shell.ForegroundColor="{DynamicResource Primary}"
     Shell.BackgroundColor="{DynamicResource Surface3}">
 
     <TabBar>
-        <Tab Title="Purse"
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Main}"
              Icon="wallet.png">
             <ShellContent
                 ContentTemplate="{DataTemplate local:PursePage}"
                 Route="PursePage" />
         </Tab>
-        <Tab Title="History"
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_History}"
              Icon="history.png">
             <ShellContent
                 ContentTemplate="{DataTemplate local:TransactionHistoryPage}"
                 Route="TransactionHistoryPage" />
         </Tab>
-        <Tab Title="Profile"
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Profile}"
              Icon="profile.png">
             <ShellContent
                 ContentTemplate="{DataTemplate local:ProfilePage}"

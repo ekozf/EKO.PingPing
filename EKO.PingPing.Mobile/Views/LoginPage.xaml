@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:components="clr-namespace:EKO.PingPing.Mobile.Components"
+             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
              x:Class="EKO.PingPing.Mobile.Views.LoginPage"
              x:DataType="viewmodels:LoginViewModel"
              BackgroundColor="{DynamicResource Surface3}">
@@ -35,17 +36,22 @@
         </Grid.ColumnDefinitions>
 
         <Label
-                Text="Log In"
-                FontSize="60"
-                HorizontalOptions="Center"
-                FontAttributes="Bold"
-                TextColor="{DynamicResource Primary}"
-                Grid.Row="1"
-                Grid.Column="1" />
+            Text="{x:Static res:AppResources.LoginPage_Header}"
+            FontSize="60"
+            HorizontalOptions="Center"
+            FontAttributes="Bold"
+            TextColor="{DynamicResource Primary}"
+            Grid.Row="1"
+            Grid.Column="1" />
 
         <VerticalStackLayout Grid.Row="3" Grid.Column="1">
 
-            <Label Text="Gebruikersnaam" FontSize="18" FontFamily="RobotoBold" TextColor="{DynamicResource Primary}" Margin="5, 0, 0, 10" />
+            <Label
+                Text="{x:Static res:AppResources.LoginPage_InputLabel_Username}"
+                FontSize="18"
+                FontFamily="RobotoBold"
+                TextColor="{DynamicResource Primary}"
+                Margin="5, 0, 0, 10" />
 
             <Border
                 StrokeThickness="0"
@@ -74,7 +80,12 @@
 
         <VerticalStackLayout Grid.Row="4" Grid.Column="1">
 
-            <Label Text="Wachtwoord" FontSize="18" FontFamily="RobotoBold" TextColor="{DynamicResource Primary}" Margin="5, 0, 0, 10" />
+            <Label
+                Text="{x:Static res:AppResources.LoginPage_InputLabel_Password}"
+                FontSize="18"
+                FontFamily="RobotoBold"
+                TextColor="{DynamicResource Primary}"
+                Margin="5, 0, 0, 10" />
 
             <Border
                 StrokeThickness="0"
@@ -107,7 +118,7 @@
         <Button
             Grid.Row="6"
             Grid.Column="1"
-            Text="Log In"
+            Text="{x:Static res:AppResources.LoginPage_Submit}"
             FontSize="18"
             BackgroundColor="{DynamicResource PrimaryContainer}"
             TextColor="{DynamicResource Primary}"

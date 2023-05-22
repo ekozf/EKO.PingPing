@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using EKO.PingPing.Mobile.Resources.Localization;
+using System.Globalization;
 
 namespace EKO.PingPing.Mobile.Converters;
 
@@ -18,7 +19,7 @@ internal sealed class UserGreetingConverter : IValueConverter
 
         var correctName = name.Trim().Split(' ').Last();
 
-        return $"Hallo, {correctName}!";
+        return string.Format(AppResources.UserGreetingConverter_GreetingFormat, correctName);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
