@@ -47,7 +47,7 @@ public sealed partial class LoginViewModel : ObservableObject
         }
         else
         {
-            await Shell.Current.DisplayAlert(
+            await Application.Current.MainPage.DisplayAlert(
                 AppResources.ValidationError_UserLoginFailed_Title,
                 AppResources.ValidationError_UserLoginFailed_Message,
                 "OK");
