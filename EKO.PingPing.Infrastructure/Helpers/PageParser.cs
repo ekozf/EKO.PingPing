@@ -46,6 +46,8 @@ internal static partial class PageParser
     /// <returns>List of transactions that the user has made</returns>
     internal static PagedTransactionModel ParseTransactions(PageResponse response, int page)
     {
+        //TestTransactionParsers(response);
+
         // Remove the tabs from the page and split it into lines
         var responsePage = response.Page.Replace("\t", "").Split('\n');
 
@@ -80,6 +82,105 @@ internal static partial class PageParser
         }
 
         return transactions;
+    }
+
+    internal static void TestTransactionParsers(PageResponse response)
+    {
+        /*
+         * After testing the parsers, it seems that the fastest way to parse the transactions is to use the
+         * version that uses the ReadOnlySpan<char> and the IndexOf method.
+         */
+
+
+        var responsePage = response.Page.AsSpan();
+
+        var sw = new System.Diagnostics.Stopwatch();
+
+        var before = GC.GetTotalMemory(false);
+
+        sw.Start();
+        for (int i = 0; i < 200_000; i++)
+        {
+            var dateTimes1 = ParseTransactionDateTimesOp(responsePage);
+        }
+        sw.Stop();
+
+        var result1 = sw.ElapsedTicks;
+        var result1ms = sw.ElapsedMilliseconds;
+        var after1 = GC.GetTotalMemory(false);
+
+        sw.Reset();
+
+        sw.Start();
+        for (int i = 0; i < 200_000; i++)
+        {
+            var dateTimes2 = ParseTransactionDateTimes(response.Page.Replace("\t", "").Split('\n'));
+        }
+        sw.Stop();
+
+        var result2 = sw.ElapsedTicks;
+        var result2ms = sw.ElapsedMilliseconds;
+        var after2 = GC.GetTotalMemory(false);
+
+        return;
+    }
+
+    private static string[] ParseTransactionDateTimesOp(ReadOnlySpan<char> page)
+    {
+        var dateTimes = new string[25];
+
+        //var start = page.IndexOf("<div class=\"trxdatetime\">\n");
+
+        //var offset = 0;
+
+        //while (offset != -1)
+        //{
+        //    var diff = start + "<div class=\"trxdatetime\">\n".Length;
+        //    var end = page.Slice(diff).IndexOf("</div>");
+
+        //    var dateTime = page.Slice(diff, end);
+
+        //    dateTimes.Add(dateTime.ToString());
+
+        //    offset = page.Slice(diff + end + "</div>".Length).IndexOf("<div class=\"trxdatetime\">\n");
+
+        //    var test = page.Slice(diff + end + "</div>".Length);
+
+        //    start += offset;
+        //}
+
+        var start = page.IndexOf("<div class=\"trxdatetime\">\n");
+
+        var startOffset = "<div class=\"trxdatetime\">\n".Length;
+
+        var rkk = 0;
+
+        var count = 0;
+
+        while (rkk != -1)
+        {
+            var test1 = page.Slice(start);
+
+            var end = test1.IndexOf('\n');
+
+            var dateTime = page.Slice(start + startOffset, end);
+
+            dateTimes[count] = dateTime.ToString();
+
+            //var test = page.Slice(start + startOffset + prevIndex);
+
+            //prevIndex += test.IndexOf("<div class=\"trxdatetime\">\n");
+
+            var kkr = page.Slice(start + startOffset);
+
+            rkk = kkr.IndexOf("<div class=\"trxdatetime\">\n");
+
+            start += startOffset + rkk;
+
+            count++;
+        }
+
+        return dateTimes;
     }
 
     /// <summary>

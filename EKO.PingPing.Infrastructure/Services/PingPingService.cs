@@ -47,7 +47,7 @@ public sealed class PingPingService : IPingPingService
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
 
         // If the cookie is null or empty, the user is not logged in.
-        return !string.IsNullOrWhiteSpace(cookie);
+        return !string.IsNullOrEmpty(cookie);
     }
 
     public async Task<PurseModel?> GetUserPurse(bool forced = false)
@@ -117,11 +117,11 @@ public sealed class PingPingService : IPingPingService
 
         // If we are forced to get the transactions, or we don't have them in the cache, we will get them from the website.
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
-
+        var memoryUsed = GC.GetTotalMemory(false) / 1000000.0;
         var transactions = await _request.GetTransactions(cookie, page);
-
+        var memoryUsed1 = GC.GetTotalMemory(false) / 1000000.0;
         var models = PageParser.ParseTransactions(transactions, page);
-
+        var memoryUsed2 = GC.GetTotalMemory(false) / 1000000.0;
         // Save the models in the cache.
         var allCachedPages = (_cachedRepository.Get(ModelTypeEnum.PagedTransaction) as PageTransactionListModel)
                                 ?? throw new ApplicationException("List of Pages not initialized before accessing data from the cache.");
