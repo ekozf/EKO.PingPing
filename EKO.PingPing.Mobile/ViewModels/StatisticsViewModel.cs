@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using EKO.PingPing.Infrastructure.Services.Contracts;
 using EKO.PingPing.Shared.Models;
-using System.Transactions;
 
 namespace EKO.PingPing.Mobile.ViewModels;
 
@@ -50,61 +49,39 @@ public sealed partial class StatisticsViewModel : ObservableObject
 
     private async Task<double> GetTotalSpent()
     {
-        var hasReachedEnd = false;
-        var currentPage = 0;
-        var allTransactions = new List<TransactionModel>();
+        var allTransactions = await GetTransactions();
 
-        while (!hasReachedEnd)
-        {
-            var transactions = await _pingPingService.GetTransactions(currentPage);
-
-            if (transactions is null || transactions.Transactions.Count is 0)
-                break;
-
-            foreach (var transaction in transactions.Transactions)
-            {
-                allTransactions.Add(transaction);
-            }
-
-            currentPage++;
-            hasReachedEnd = transactions.HasReachedEnd;
-        }
-
-        return Math.Round(allTransactions.Where(x => x.Price < 0).Sum(x => Math.Abs(x.Price)), 2);
+        return SumAndRound(allTransactions);
     }
 
     private async Task<double> GetMonthlySpent(int month)
     {
-        var hasReachedEnd = false;
-        var currentPage = 0;
-        var monthlyTransactions = new List<TransactionModel>();
+        var transactions = await GetTransactions();
 
-        while (!hasReachedEnd)
-        {
-            var transactions = await _pingPingService.GetTransactions(currentPage);
+        var monthlyTransactions = transactions
+            .Where(x => x.Date.Month == month && x.Date.Year == DateTime.Now.Year)
+            .ToList();
 
-            if (transactions is null || transactions.Transactions.Count is 0)
-                break;
-
-            foreach (var transaction in transactions.Transactions)
-            {
-                monthlyTransactions.Add(transaction);
-            }
-
-            currentPage++;
-            hasReachedEnd = transactions.HasReachedEnd;
-        }
-
-        monthlyTransactions = monthlyTransactions.Where(x => x.Date.Month == month && x.Date.Year == DateTime.Now.Year).ToList();
-
-        return Math.Round(monthlyTransactions.Where(x => x.Price < 0).Sum(x => Math.Abs(x.Price)), 2);
+        return SumAndRound(monthlyTransactions);
     }
 
     private async Task<double> GetYearlySpent()
     {
+        var transactions = await GetTransactions();
+
+        var yearlyTransactions = transactions
+            .OrderByDescending(x => x.Date)
+            .Where(x => new DateTime(DateTime.Now.Year, 9, 1) < x.Date)
+            .ToList();
+
+        return SumAndRound(yearlyTransactions);
+    }
+
+    private async Task<IReadOnlyList<TransactionModel>> GetTransactions()
+    {
         var hasReachedEnd = false;
         var currentPage = 0;
-        var yearlyTransactions = new List<TransactionModel>();
+        var transactionsList = new List<TransactionModel>();
 
         while (!hasReachedEnd)
         {
@@ -115,15 +92,18 @@ public sealed partial class StatisticsViewModel : ObservableObject
 
             foreach (var transaction in transactions.Transactions)
             {
-                yearlyTransactions.Add(transaction);
+                transactionsList.Add(transaction);
             }
 
             currentPage++;
             hasReachedEnd = transactions.HasReachedEnd;
         }
 
-        yearlyTransactions = yearlyTransactions.OrderByDescending(x => x.Date).Where(x => new DateTime(DateTime.Now.Year, 9, 1) < x.Date).ToList();
+        return transactionsList;
+    }
 
-        return Math.Round(yearlyTransactions.Where(x => x.Price < 0).Sum(x => Math.Abs(x.Price)), 2);
+    private static double SumAndRound(IReadOnlyList<TransactionModel> transactions)
+    {
+        return Math.Round(transactions.Where(x => x.Price < 0).Sum(x => Math.Abs(x.Price)), 2);
     }
 }

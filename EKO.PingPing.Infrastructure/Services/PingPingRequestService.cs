@@ -9,7 +9,7 @@ namespace EKO.PingPing.Infrastructure.Services;
 /// <summary>
 /// Class that handles all requests to the PingPing website.
 /// </summary>
-public class PingPingRequestService : IRequestService
+public sealed class PingPingRequestService : IRequestService
 {
     /// <summary>
     /// HttpClient that will be used to send requests.
