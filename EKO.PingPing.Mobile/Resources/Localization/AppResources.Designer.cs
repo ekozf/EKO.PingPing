@@ -61,6 +61,15 @@ namespace EKO.PingPing.Mobile.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Laden....
+        /// </summary>
+        internal static string Generic_Loading {
+            get {
+                return ResourceManager.GetString("Generic.Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log In.
         /// </summary>
         internal static string LoginPage_Header {
@@ -228,6 +237,60 @@ namespace EKO.PingPing.Mobile.Resources.Localization {
         internal static string Shell_Tabs_Profile {
             get {
                 return ResourceManager.GetString("Shell.Tabs.Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistieken.
+        /// </summary>
+        internal static string Shell_Tabs_Stats {
+            get {
+                return ResourceManager.GetString("Shell.Tabs.Stats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uw Statistieken.
+        /// </summary>
+        internal static string Statistics_Title {
+            get {
+                return ResourceManager.GetString("Statistics.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze maand uitgegeven:.
+        /// </summary>
+        internal static string Statistics_TotalMonthlySpent {
+            get {
+                return ResourceManager.GetString("Statistics.TotalMonthlySpent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vorige maand uitgegeven:.
+        /// </summary>
+        internal static string Statistics_TotalPreviousMonthlySpent {
+            get {
+                return ResourceManager.GetString("Statistics.TotalPreviousMonthlySpent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Totaal uitgegeven bedrag:.
+        /// </summary>
+        internal static string Statistics_TotalSpent {
+            get {
+                return ResourceManager.GetString("Statistics.TotalSpent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dit jaar uitgegeven:.
+        /// </summary>
+        internal static string Statistics_TotalYearlySpent {
+            get {
+                return ResourceManager.GetString("Statistics.TotalYearlySpent", resourceCulture);
             }
         }
         

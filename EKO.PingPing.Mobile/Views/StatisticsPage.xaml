@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="EKO.PingPing.Mobile.Views.StatisticsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+    xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+    xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+    x:DataType="viewmodels:StatisticsViewModel"
+    BackgroundColor="{DynamicResource Surface3}">
+
+    <ContentPage.Resources>
+        <converters:SpentLoadingConverter x:Key="SpentLoadingConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Surface3}" StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior Command="{Binding LoadStatisticsCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="86*" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5,0,0,0"
+            FontAttributes="Bold"
+            FontSize="28"
+            HorizontalOptions="Center"
+            Text="{x:Static res:AppResources.Statistics_Title}"
+            TextColor="{DynamicResource Primary}"
+            VerticalOptions="Center" />
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,0,0,15"
+            BackgroundColor="{DynamicResource Surface1}"
+            StrokeThickness="0">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="{DynamicResource Surface5Brush}"
+                    Opacity="0.8"
+                    Radius="50"
+                    Offset="0,0" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Padding="30,30,0,0" BackgroundColor="{DynamicResource Surface1}">
+
+                <VerticalStackLayout.Shadow>
+                    <Shadow
+                        Brush="{DynamicResource PrimaryBrush}"
+                        Opacity="0.8"
+                        Radius="100" />
+                </VerticalStackLayout.Shadow>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Opacity=".75"
+                    Text="{x:Static res:AppResources.Statistics_TotalMonthlySpent}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="42"
+                    Text="{Binding TotalMonthlySpentString, Converter={StaticResource SpentLoadingConverter}}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center">
+
+                    <Label.Shadow>
+                        <Shadow
+                            Brush="{DynamicResource Primary}"
+                            Opacity="0.1"
+                            Radius="20"
+                            Offset="0,0" />
+                    </Label.Shadow>
+
+                </Label>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,0,0,15"
+            BackgroundColor="{DynamicResource Surface1}"
+            StrokeThickness="0">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="{DynamicResource Surface5Brush}"
+                    Opacity="0.8"
+                    Radius="50"
+                    Offset="0,0" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Padding="30,30,0,0" BackgroundColor="{DynamicResource Surface1}">
+
+                <VerticalStackLayout.Shadow>
+                    <Shadow
+                        Brush="{DynamicResource PrimaryBrush}"
+                        Opacity="0.8"
+                        Radius="100" />
+                </VerticalStackLayout.Shadow>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Opacity=".75"
+                    Text="{x:Static res:AppResources.Statistics_TotalPreviousMonthlySpent}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="42"
+                    Text="{Binding TotalPreviouslyMonthlySpentString, Converter={StaticResource SpentLoadingConverter}}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center">
+
+                    <Label.Shadow>
+                        <Shadow
+                            Brush="{DynamicResource Primary}"
+                            Opacity="0.1"
+                            Radius="20"
+                            Offset="0,0" />
+                    </Label.Shadow>
+
+                </Label>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <Border
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0,0,0,15"
+            BackgroundColor="{DynamicResource Surface1}"
+            StrokeThickness="0">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="{DynamicResource Surface5Brush}"
+                    Opacity="0.8"
+                    Radius="50"
+                    Offset="0,0" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Padding="30,30,0,0" BackgroundColor="{DynamicResource Surface1}">
+
+                <VerticalStackLayout.Shadow>
+                    <Shadow
+                        Brush="{DynamicResource PrimaryBrush}"
+                        Opacity="0.8"
+                        Radius="100" />
+                </VerticalStackLayout.Shadow>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Opacity=".75"
+                    Text="{x:Static res:AppResources.Statistics_TotalYearlySpent}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="42"
+                    Text="{Binding TotalYearlySpentString, Converter={StaticResource SpentLoadingConverter}}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center">
+
+                    <Label.Shadow>
+                        <Shadow
+                            Brush="{DynamicResource Primary}"
+                            Opacity="0.1"
+                            Radius="20"
+                            Offset="0,0" />
+                    </Label.Shadow>
+
+                </Label>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <Border
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="0,0,0,15"
+            BackgroundColor="{DynamicResource Surface1}"
+            StrokeThickness="0">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <Border.Shadow>
+                <Shadow
+                    Brush="{DynamicResource Surface5Brush}"
+                    Opacity="0.8"
+                    Radius="50"
+                    Offset="0,0" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Padding="30,30,0,0" BackgroundColor="{DynamicResource Surface1}">
+
+                <VerticalStackLayout.Shadow>
+                    <Shadow
+                        Brush="{DynamicResource PrimaryBrush}"
+                        Opacity="0.8"
+                        Radius="100" />
+                </VerticalStackLayout.Shadow>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Opacity=".75"
+                    Text="{x:Static res:AppResources.Statistics_TotalSpent}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="42"
+                    Text="{Binding TotalSpentString, Converter={StaticResource SpentLoadingConverter}}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center">
+
+                    <Label.Shadow>
+                        <Shadow
+                            Brush="{DynamicResource Primary}"
+                            Opacity="0.1"
+                            Radius="20"
+                            Offset="0,0" />
+                    </Label.Shadow>
+
+                </Label>
+
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

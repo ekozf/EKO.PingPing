@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
-             xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
-             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
-             x:Class="EKO.PingPing.Mobile.Views.SessionsPage"
-             x:DataType="viewmodels:SessionsViewModel"
-             BackgroundColor="{DynamicResource Surface3}">
+<ContentPage
+    x:Class="EKO.PingPing.Mobile.Views.SessionsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+    xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+    xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+    x:DataType="viewmodels:SessionsViewModel"
+    BackgroundColor="{DynamicResource Surface3}">
 
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}"
-            StatusBarColor="{StaticResource Surface3}" />
-        <toolkit:EventToCommandBehavior
-            EventName="Appearing"
-            Command="{Binding LoadUserSessionsCommand}" />
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Surface3}" StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior Command="{Binding LoadUserSessionsCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
 
-    <CollectionView
-        SelectionMode="None"
-        ItemsSource="{Binding Sessions}">
+    <CollectionView ItemsSource="{Binding Sessions}" SelectionMode="None">
 
         <CollectionView.Header>
-            <VerticalStackLayout Margin="20, 80, 20, 50">
+            <VerticalStackLayout Margin="20,80,20,50">
                 <Label
+                    Margin="5,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="28"
                     Text="{x:Static res:AppResources.SessionsPage_Header}"
                     TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center" 
-                    FontSize="28"
-                    FontAttributes="Bold"
-                    Margin="5,0,0,0" />
+                    VerticalOptions="Center" />
                 <Label
+                    Margin="5,5,0,0"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Opacity=".66"
                     Text="{x:Static res:AppResources.SessionsPage_Subheader}"
                     TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center" 
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    Opacity=".66"
-                    Margin="5,5,0,0" />
+                    VerticalOptions="Center" />
             </VerticalStackLayout>
         </CollectionView.Header>
 
@@ -47,19 +42,19 @@
             <DataTemplate x:DataType="{x:Type models:SessionsModel}">
 
                 <Border
-                    StrokeThickness="0"
-                    BackgroundColor="{DynamicResource Surface1}"
                     Margin="15,10"
-                    Padding="5">
+                    Padding="5"
+                    BackgroundColor="{DynamicResource Surface1}"
+                    StrokeThickness="0">
 
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20" />
                     </Border.StrokeShape>
 
                     <Grid
-                        BackgroundColor="{DynamicResource Surface1}"
-                        Padding="10, 10, 3, 10"
-                        Margin="25">
+                        Margin="25"
+                        Padding="10,10,3,10"
+                        BackgroundColor="{DynamicResource Surface1}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -71,36 +66,36 @@
                         </Grid.ColumnDefinitions>
 
                         <Label
+                            FontAttributes="Bold"
+                            FontSize="12"
                             Text="{Binding UserAgent}"
-                            FontSize="14"
                             TextColor="{DynamicResource Primary}"
-                            VerticalOptions="Start"
-                            FontAttributes="Bold" />
+                            VerticalOptions="Start" />
 
                         <Label
+                            FontSize="10"
+                            Opacity=".75"
                             Text="{Binding LastActiveDate, StringFormat='{0:dd-MM-yyy HH:mm}'}"
-                            FontSize="12" 
                             TextColor="{DynamicResource Primary}"
-                            VerticalOptions="End"
-                            Opacity=".75" />
+                            VerticalOptions="End" />
 
                         <Button
                             Grid.Column="1"
-                            Text="&#10006;"
-                            TextColor="{DynamicResource Error}"
-                            Padding="30, 0, 30, 1"
-                            FontSize="16"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            CornerRadius="20"
+                            Padding="30,0,30,1"
                             BackgroundColor="{DynamicResource ErrorContainer}"
                             Command="{Binding LogOutSessionCommand, Source={RelativeSource AncestorType={x:Type viewmodels:SessionsViewModel}}}"
-                            CommandParameter="{Binding SessionId}" />
+                            CommandParameter="{Binding SessionId}"
+                            CornerRadius="20"
+                            FontSize="14"
+                            HorizontalOptions="End"
+                            Text="&#10006;"
+                            TextColor="{DynamicResource Error}"
+                            VerticalOptions="Center" />
 
                     </Grid>
 
                 </Border>
-                
+
             </DataTemplate>
         </CollectionView.ItemTemplate>
 

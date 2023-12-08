@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
-             xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
-             xmlns:controls="clr-namespace:EKO.PingPing.Mobile.Controls"
-             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
-             x:Class="EKO.PingPing.Mobile.Views.PursePage"
-             x:DataType="viewmodels:PurseViewModel"
-             BackgroundColor="{DynamicResource Surface3}">
+<ContentPage
+    x:Class="EKO.PingPing.Mobile.Views.PursePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:EKO.PingPing.Mobile.Controls"
+    xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+    xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+    xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+    x:DataType="viewmodels:PurseViewModel"
+    BackgroundColor="{DynamicResource Surface3}">
 
     <ContentPage.Resources>
         <converters:PurseBalanceConverter x:Key="PurseBalanceConverter" />
@@ -18,27 +19,20 @@
     </ContentPage.Resources>
 
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}"
-            StatusBarColor="{StaticResource Surface3}" />
-        <toolkit:EventToCommandBehavior
-            EventName="Appearing"
-            Command="{Binding LoadPurseCommand}" />
-        <toolkit:EventToCommandBehavior
-            EventName="Disappearing"
-            Command="{Binding ResetDisplayBalanceCommand}" />
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Surface3}" StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior Command="{Binding LoadPurseCommand}" EventName="Appearing" />
+        <toolkit:EventToCommandBehavior Command="{Binding ResetDisplayBalanceCommand}" EventName="Disappearing" />
     </ContentPage.Behaviors>
-    
-    <RefreshView Command="{Binding RefreshPurseCommand}"
-                 IsRefreshing="{Binding RefreshPurseCommand.IsRunning}"
-                 RefreshColor="{DynamicResource Primary}">
 
-        <CollectionView
-                SelectionMode="None"
-                ItemsSource="{Binding Transactions.Transactions}">
+    <RefreshView
+        Command="{Binding RefreshPurseCommand}"
+        IsRefreshing="{Binding RefreshPurseCommand.IsRunning}"
+        RefreshColor="{DynamicResource Primary}">
+
+        <CollectionView ItemsSource="{Binding Transactions.Transactions}" SelectionMode="None">
 
             <CollectionView.Header>
-                <Grid Margin="0, 150, 0, 15" HeightRequest="325">
+                <Grid Margin="0,150,0,15" HeightRequest="325">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" />
                         <RowDefinition Height="10*" />
@@ -53,26 +47,31 @@
                     </Grid.ColumnDefinitions>
 
                     <Label
-                        Grid.Row="0" Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="18"
                         Text="{Binding Name, Converter={StaticResource UserGreetingConverter}}"
                         TextColor="{DynamicResource Primary}"
-                        VerticalOptions="Center" 
-                        FontSize="24"
-                        FontAttributes="Bold"
-                        Margin="5,0,0,0">
+                        VerticalOptions="Center">
 
                         <Label.Shadow>
                             <Shadow
                                 Brush="{DynamicResource Primary}"
+                                Opacity="0.35"
                                 Radius="45"
-                                Offset="0,0"
-                                Opacity="0.35" />
+                                Offset="0,0" />
                         </Label.Shadow>
 
                     </Label>
 
 
-                    <Border Grid.Row="2" Grid.Column="1" StrokeThickness="0" BackgroundColor="{DynamicResource Surface1}">
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        BackgroundColor="{DynamicResource Surface1}"
+                        StrokeThickness="0">
 
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20" />
@@ -81,42 +80,41 @@
                         <Border.Shadow>
                             <Shadow
                                 Brush="{DynamicResource Surface5Brush}"
+                                Opacity="0.8"
                                 Radius="50"
-                                Offset="0,0"
-                                Opacity="0.8" />
+                                Offset="0,0" />
                         </Border.Shadow>
 
-                        <VerticalStackLayout  BackgroundColor="{DynamicResource Surface1}" Padding="30,30,0,0">
+                        <VerticalStackLayout Padding="30,30,0,0" BackgroundColor="{DynamicResource Surface1}">
 
                             <VerticalStackLayout.Shadow>
                                 <Shadow
                                     Brush="{DynamicResource PrimaryBrush}"
-                                    Radius="100"
-                                    Opacity="0.8" />
+                                    Opacity="0.8"
+                                    Radius="100" />
                             </VerticalStackLayout.Shadow>
 
                             <Label
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Opacity=".75"
                                 Text="{x:Static res:AppResources.PursePage_Subheader_YourBalance}"
                                 TextColor="{DynamicResource Primary}"
-                                Opacity=".75"
-                                VerticalOptions="Center" 
-                                FontSize="15"
-                                FontAttributes="Bold"
-                                />
+                                VerticalOptions="Center" />
 
                             <Label
+                                FontAttributes="Bold"
+                                FontSize="52"
                                 Text="{Binding Balance, Converter={StaticResource PurseBalanceConverter}}"
                                 TextColor="{DynamicResource Primary}"
-                                VerticalOptions="Center" 
-                                FontSize="60"
-                                FontAttributes="Bold">
+                                VerticalOptions="Center">
 
                                 <Label.Shadow>
-                                    <Shadow 
+                                    <Shadow
                                         Brush="{DynamicResource Primary}"
+                                        Opacity="0.1"
                                         Radius="20"
-                                        Offset="0,0"
-                                        Opacity="0.1" />
+                                        Offset="0,0" />
                                 </Label.Shadow>
 
                             </Label>
@@ -128,19 +126,18 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Margin="5,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Opacity=".75"
                         Text="{x:Static res:AppResources.PursePage_Subheader_RecentTransactions}"
                         TextColor="{DynamicResource Primary}"
-                        Opacity=".75"
-                        VerticalOptions="Center" 
-                        FontSize="15"
-                        FontAttributes="Bold"
-                        />
+                        VerticalOptions="Center" />
                 </Grid>
             </CollectionView.Header>
-            
+
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type models:TransactionModel}">
-                    <controls:TransactionCard  />
+                    <controls:TransactionCard />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

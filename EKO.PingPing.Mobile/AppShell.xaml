@@ -5,29 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:EKO.PingPing.Mobile.Views"
     xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
+    Shell.BackgroundColor="{DynamicResource Surface3}"
     Shell.FlyoutBehavior="Disabled"
-    Shell.TabBarBackgroundColor="{DynamicResource Surface2}"
     Shell.ForegroundColor="{DynamicResource Primary}"
-    Shell.BackgroundColor="{DynamicResource Surface3}">
+    Shell.TabBarBackgroundColor="{DynamicResource Surface2}">
 
     <TabBar>
-        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Main}"
-             Icon="wallet.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate local:PursePage}"
-                Route="PursePage" />
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Main}" Icon="wallet.png">
+            <ShellContent ContentTemplate="{DataTemplate local:PursePage}" Route="PursePage" />
         </Tab>
-        <Tab Title="{x:Static res:AppResources.Shell_Tabs_History}"
-             Icon="history.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate local:TransactionHistoryPage}"
-                Route="TransactionHistoryPage" />
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_History}" Icon="history.png">
+            <ShellContent ContentTemplate="{DataTemplate local:TransactionHistoryPage}" Route="TransactionHistoryPage" />
         </Tab>
-        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Profile}"
-             Icon="profile.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate local:ProfilePage}"
-                Route="ProfilePage" />
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Stats}" Icon="statistics.png">
+            <ShellContent ContentTemplate="{DataTemplate local:StatisticsPage}" Route="StatisticsPage" />
+        </Tab>
+        <Tab Title="{x:Static res:AppResources.Shell_Tabs_Profile}" Icon="profile.png">
+            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" Route="ProfilePage" />
         </Tab>
     </TabBar>
 </Shell>

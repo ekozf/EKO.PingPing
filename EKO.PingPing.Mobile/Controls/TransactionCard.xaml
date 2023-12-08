@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
-             xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
-             x:Class="EKO.PingPing.Mobile.Controls.TransactionCard"
-             x:DataType="models:TransactionModel">
+<ContentView
+    x:Class="EKO.PingPing.Mobile.Controls.TransactionCard"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+    xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="models:TransactionModel">
 
     <ContentView.Resources>
         <converters:PurseBalanceConverter x:Key="PurseBalanceConverter" />
@@ -13,21 +14,21 @@
     </ContentView.Resources>
 
     <Border
-        StrokeThickness="0"
-        BackgroundColor="{DynamicResource Surface1}"
         Margin="15,10"
-        Padding="5">
-        
+        Padding="5"
+        BackgroundColor="{DynamicResource Surface1}"
+        StrokeThickness="0">
+
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="20" />
         </Border.StrokeShape>
 
 
         <Grid
-            BackgroundColor="{DynamicResource Surface1}"
-            Padding="10, 10, 3, 10"
-            Margin="25">
-            
+            Margin="25"
+            Padding="10,10,3,10"
+            BackgroundColor="{DynamicResource Surface1}">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -38,39 +39,36 @@
             </Grid.ColumnDefinitions>
 
             <Label
+                Margin="0,0,0,5"
+                FontSize="15"
                 Text="{Binding Date, StringFormat='{0:dd-MM-yyy HH:mm}'}"
                 TextColor="{DynamicResource Primary}"
-                FontSize="16"
-                Margin="0,0,0,5"
-                VerticalOptions="Start"
-                />
-            
+                VerticalOptions="Start" />
+
             <Label
+                FontSize="12"
+                Opacity=".66"
                 Text="{Binding Location}"
                 TextColor="{DynamicResource Primary}"
-                FontSize="13"
-                Opacity=".66"
-                VerticalOptions="End"
-                />
+                VerticalOptions="End" />
 
             <Border
                 Grid.Column="1"
                 Padding="5"
-                BackgroundColor="{Binding Price, Converter={StaticResource BalanceToColorConverter}}" 
-                StrokeThickness="0"
+                BackgroundColor="{Binding Price, Converter={StaticResource BalanceToColorConverter}}"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="Center"
-                >
+                StrokeThickness="0"
+                VerticalOptions="Center">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20" />
                 </Border.StrokeShape>
 
                 <Label
-                    Margin="10, 3"
-                    Text="{Binding Price, Converter={StaticResource PurseBalanceConverter}}"
-                    FontSize="20"
-                    HorizontalOptions="Center"
+                    Margin="10,3"
                     FontAttributes="Bold"
+                    FontSize="15"
+                    HorizontalOptions="Center"
+                    Text="{Binding Price, Converter={StaticResource PurseBalanceConverter}}"
                     TextColor="White" />
             </Border>
 

@@ -55,6 +55,9 @@ public static class MauiProgram
         builder.Services.AddTransient<SessionsPage>();
         builder.Services.AddTransient<SessionsViewModel>();
 
+        builder.Services.AddTransient<StatisticsPage>();
+        builder.Services.AddTransient<StatisticsViewModel>();
+
         return builder.Build();
     }
 }

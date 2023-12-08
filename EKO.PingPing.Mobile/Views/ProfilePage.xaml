@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
-             xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
-             xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
-             x:Class="EKO.PingPing.Mobile.Views.ProfilePage"
-             x:DataType="viewmodels:ProfileViewModel"
-             BackgroundColor="{DynamicResource Surface3}">
+<ContentPage
+    x:Class="EKO.PingPing.Mobile.Views.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:EKO.PingPing.Mobile.Converters"
+    xmlns:models="clr-namespace:EKO.PingPing.Shared.Models;assembly=EKO.PingPing.Shared"
+    xmlns:res="clr-namespace:EKO.PingPing.Mobile.Resources.Localization"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:EKO.PingPing.Mobile.ViewModels"
+    x:DataType="viewmodels:ProfileViewModel"
+    BackgroundColor="{DynamicResource Surface3}">
 
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}"
-            StatusBarColor="{StaticResource Surface3}" />
-        <toolkit:EventToCommandBehavior
-            EventName="Appearing"
-            Command="{Binding LoadUserDataCommand}" />
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Surface3}" StatusBarStyle="{AppThemeBinding Light=DarkContent, Dark=LightContent}" />
+        <toolkit:EventToCommandBehavior Command="{Binding LoadUserDataCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
-    
-    <Grid Margin="0, 50, 0, 0">
+
+    <Grid Margin="0,50,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="15*" />
             <RowDefinition Height="45*" />
@@ -34,22 +31,22 @@
         </Grid.ColumnDefinitions>
 
         <Label
-            Text="{x:Static res:AppResources.ProfilePage_Header}"
             Grid.Row="0"
             Grid.Column="1"
-            TextColor="{DynamicResource Primary}"
-            VerticalOptions="Center" 
-            FontSize="24"
+            Margin="5,0,0,15"
             FontAttributes="Bold"
-            Margin="5,0,0,15" />
+            FontSize="24"
+            Text="{x:Static res:AppResources.ProfilePage_Header}"
+            TextColor="{DynamicResource Primary}"
+            VerticalOptions="Center" />
 
         <Border
-            StrokeThickness="0"
-            BackgroundColor="{DynamicResource Surface1}"
-            Padding="15"
             Grid.Row="1"
-            Grid.Column="1">
-            
+            Grid.Column="1"
+            Padding="15"
+            BackgroundColor="{DynamicResource Surface1}"
+            StrokeThickness="0">
+
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20" />
             </Border.StrokeShape>
@@ -70,87 +67,80 @@
                 </Grid.ColumnDefinitions>
 
                 <Label
-                    Text="{x:Static res:AppResources.ProfilePage_Details_Name}"
                     Grid.Row="0"
                     Grid.Column="0"
-                    TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="Start"
-                    FontSize="14"
-                    FontAttributes="Bold"
                     Margin="5,0,5,0"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    HorizontalOptions="Start"
                     Opacity=".66"
-                    />
+                    Text="{x:Static res:AppResources.ProfilePage_Details_Name}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
 
                 <Label
-                    Text="{Binding Purse.Name}"
                     Grid.Row="1"
                     Grid.Column="1"
-                    TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center" 
-                    FontSize="16"
-                    FontAttributes="Bold"
                     Margin="5,0,0,15"
-                    />
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="{Binding Purse.Name}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
 
                 <Label
-                    Text="{x:Static res:AppResources.ProfilePage_Details_Email}"
                     Grid.Row="2"
                     Grid.Column="0"
-                    TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    FontSize="14"
-                    FontAttributes="Bold"
                     Margin="5,0,5,0"
-                    Opacity=".66"
-                    />
-                
-                <Label
-                    Text="{Binding Purse.Email}"
-                    Grid.Row="3"
-                    Grid.Column="1" 
-                    TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center" 
-                    FontSize="16"
                     FontAttributes="Bold"
-                    Margin="5,0,0,15"
-                    />
+                    FontSize="12"
+                    HorizontalOptions="Start"
+                    Opacity=".66"
+                    Text="{x:Static res:AppResources.ProfilePage_Details_Email}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
 
                 <Label
-                    Text="{x:Static res:AppResources.ProfilePage_Details_Username}"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="5,0,0,15"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="{Binding Purse.Email}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
+
+                <Label
                     Grid.Row="4"
                     Grid.Column="0"
-                    TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    FontSize="14"
-                    FontAttributes="Bold"
                     Margin="5,0,5,0"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    HorizontalOptions="Start"
                     Opacity=".66"
-                    />
-                
+                    Text="{x:Static res:AppResources.ProfilePage_Details_Username}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
+
                 <Label
-                    Text="{Binding Purse.UserName}"
                     Grid.Row="5"
                     Grid.Column="1"
-                    TextColor="{DynamicResource Primary}"
-                    VerticalOptions="Center" 
-                    FontSize="16"
-                    FontAttributes="Bold"
                     Margin="5,0,0,15"
-                    />
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="{Binding Purse.UserName}"
+                    TextColor="{DynamicResource Primary}"
+                    VerticalOptions="Center" />
 
                 <Button
                     Grid.Row="7"
                     Grid.ColumnSpan="2"
-                    Text="{x:Static res:AppResources.ProfilePage_More_SeeLogins}"
-                    FontSize="16"
+                    Margin="30,0"
                     BackgroundColor="{DynamicResource PrimaryContainer}"
-                    TextColor="{DynamicResource Primary}"
                     Command="{Binding ViewSessionsCommand}"
-                    Margin="30, 0"
-                    />
+                    FontSize="14"
+                    Text="{x:Static res:AppResources.ProfilePage_More_SeeLogins}"
+                    TextColor="{DynamicResource Primary}" />
 
             </Grid>
         </Border>
@@ -158,11 +148,11 @@
         <Button
             Grid.Row="3"
             Grid.Column="1"
-            Text="{x:Static res:AppResources.ProfilePage_LogOut}"
-            FontSize="18"
             BackgroundColor="{DynamicResource ErrorContainer}"
-            TextColor="{DynamicResource Error}"
             Command="{Binding LogOutUserCommand}"
-            FontAttributes="Bold" />
+            FontAttributes="Bold"
+            FontSize="16"
+            Text="{x:Static res:AppResources.ProfilePage_LogOut}"
+            TextColor="{DynamicResource Error}" />
     </Grid>
 </ContentPage>
