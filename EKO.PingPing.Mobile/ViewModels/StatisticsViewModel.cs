@@ -96,7 +96,6 @@ public sealed partial class StatisticsViewModel : ObservableObject
             }
 
             currentPage++;
-            hasReachedEnd = transactions.HasReachedEnd;
         }
 
         return transactionsList;
