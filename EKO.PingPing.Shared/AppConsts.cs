@@ -19,4 +19,9 @@ public static class AppConsts
     /// User agent that will be used in the requests. Added to prevent the website from returning an error. End of the user agent is the version of the application.
     /// </summary>
     public const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 PingDingApp/1.0.0";
+
+    /// <summary>
+    /// How many pages should be loaded when loading transactions.
+    /// </summary>
+    public const int AMOUNT_TO_LOAD_PAGES = 15;
 }
