@@ -50,7 +50,7 @@ public sealed partial class StatisticsViewModel : ObservableObject
         var previousMonthSpent = await GetMonthlySpent(previousMonth, year);
         TotalPreviouslyMonthlySpentString = $"€ {previousMonthSpent:F2}";
 
-        var yearlySpent = await GetYearlySpent();
+        var yearlySpent = await GetYearlySpent(year);
         TotalYearlySpentString = $"€ {yearlySpent:F2}";
     }
 
@@ -73,7 +73,6 @@ public sealed partial class StatisticsViewModel : ObservableObject
     {
         var transactions = await GetTransactions();
 
-        bool Januari = DateTime.Now.Date < new DateTime(DateTime.Now.Year, 1, 1);
         var monthlyTransactions = transactions
             .Where(x => x.Date.Month == month && x.Date.Year == year)
             .ToList();
@@ -85,14 +84,14 @@ public sealed partial class StatisticsViewModel : ObservableObject
     /// Load all the transactions from the beginning of the school year.
     /// </summary>
     /// <returns>Balance spent this school year</returns>
-    private async Task<double> GetYearlySpent()
+    private async Task<double> GetYearlySpent(int year)
     {
         var transactions = await GetTransactions();
 
-        bool isBeforeSeptember = DateTime.Now.Date < new DateTime(DateTime.Now.Year, 9, 1);
+        bool isBeforeSeptember = DateTime.Now.Date < new DateTime(year, 9, 1);
         var yearlyTransactions = transactions
             .OrderByDescending(x => x.Date)
-            .Where(x => isBeforeSeptember ? x.Date < new DateTime(DateTime.Now.Year - 1, 9, 1) : x.Date < new DateTime(DateTime.Now.Year, 9, 1))
+            .Where(x => isBeforeSeptember ? x.Date < new DateTime(year - 1, 9, 1) : x.Date < new DateTime(year, 9, 1))
             .ToList();
 
         return SumAndRound(yearlyTransactions);
