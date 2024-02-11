@@ -13,8 +13,8 @@ public partial class TransactionHistoryViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<TransactionModel> _transactions;
 
-    private int _currentPage;
-    private bool _hasReachedEnd;
+    private int _currentPage = 0;
+    private bool _hasReachedEnd = false;
 
     public TransactionHistoryViewModel(IPingPingService pingPingService)
     {
@@ -63,15 +63,13 @@ public partial class TransactionHistoryViewModel : ObservableObject
 
         var transactions = await _pingPingService.GetTransactions(_currentPage);
 
-        if (transactions is null || transactions.Transactions.Count is 0)
+        if (transactions is null)
             return;
 
         foreach (var transaction in transactions.Transactions)
         {
             Transactions.Add(transaction);
         }
-
-        _currentPage++;
-        _hasReachedEnd = transactions.HasReachedEnd;
+        _currentPage += 1;
     }
 }

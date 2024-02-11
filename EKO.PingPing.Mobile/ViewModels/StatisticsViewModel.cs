@@ -33,18 +33,23 @@ public sealed partial class StatisticsViewModel : ObservableObject
         var totalSpent = await GetTotalSpent();
         TotalSpentString = $"€ {totalSpent:F2}";
 
-        var monthlySpent = await GetMonthlySpent(DateTime.Now.Month);
+        var monthlySpent = await GetMonthlySpent(DateTime.Now.Month, DateTime.Now.Year);
         TotalMonthlySpentString = $"€ {monthlySpent:F2}";
 
         var previousMonth = DateTime.Now.Month - 1;
+        var year = DateTime.Now.Year;
 
-        if (previousMonth is 0)
+        if (DateTime.Now.Month == 1)
+        {
             previousMonth = 12;
+            year = DateTime.Now.Year - 1;
+        }
 
-        var previousMonthSpent = await GetMonthlySpent(previousMonth);
+        var previousMonthSpent = await GetMonthlySpent(previousMonth, year);
         TotalPreviouslyMonthlySpentString = $"€ {previousMonthSpent:F2}";
+    
 
-        var yearlySpent = await GetYearlySpent();
+        var yearlySpent = await GetYearlySpent(year);
         TotalYearlySpentString = $"€ {yearlySpent:F2}";
     }
 
@@ -58,18 +63,18 @@ public sealed partial class StatisticsViewModel : ObservableObject
 
         return SumAndRound(allTransactions);
     }
-
     /// <summary>
     /// Load all the transactions for a given month.
     /// </summary>
     /// <param name="month">Month to load the transactions from</param>
     /// <returns>Balance spent this month</returns>
-    private async Task<double> GetMonthlySpent(int month)
+    private async Task<double> GetMonthlySpent(int month, int year)
     {
         var transactions = await GetTransactions();
 
         var monthlyTransactions = transactions
-            .Where(x => x.Date.Month == month && x.Date.Year == DateTime.Now.Year);
+            .Where(x => x.Date.Month == month && x.Date.Year == year)
+            .ToList();
 
         return SumAndRound(monthlyTransactions);
     }
@@ -78,13 +83,15 @@ public sealed partial class StatisticsViewModel : ObservableObject
     /// Load all the transactions from the beginning of the school year.
     /// </summary>
     /// <returns>Balance spent this school year</returns>
-    private async Task<double> GetYearlySpent()
+    private async Task<double> GetYearlySpent(int year)
     {
         var transactions = await GetTransactions();
 
+        bool isBeforeSeptember = DateTime.Now.Date < new DateTime(year, 9, 1);
         var yearlyTransactions = transactions
-            .Where(x => new DateTime(DateTime.Now.Year, 9, 1) < x.Date)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(x => x.Date)
+            .Where(x => isBeforeSeptember ? x.Date < new DateTime(year - 1, 9, 1) : x.Date < new DateTime(year, 9, 1))
+            .ToList();
 
         return SumAndRound(yearlyTransactions);
     }
