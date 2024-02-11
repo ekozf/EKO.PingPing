@@ -9,6 +9,7 @@ namespace EKO.PingPing.Mobile;
 public partial class App : Application
 {
     private readonly MaterialColorService _materialColorService;
+    private readonly LoginPage _page;
 
     public App(MaterialColorService materialColorService, LoginPage page)
     {
@@ -22,26 +23,26 @@ public partial class App : Application
             if (view is BorderlessEntry)
             {
                 handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
-                handler.PlatformView.TextCursorDrawable.SetTint(materialColorService.SchemeMaui.Primary.ToPlatform());
+                //handler.PlatformView.TextCursorDrawable.SetTint(materialColorService.SchemeMaui.Primary.ToPlatform());
+                handler.PlatformView.TextCursorDrawable.SetTint(Colors.Transparent.ToPlatform());
             }
         });
 #endif
-        if (string.IsNullOrEmpty(SecureStorage.GetAsync(AppConsts.COOKIE_KEY).Result))
-        {
-            MainPage = page;
-            return;
-        }
+        _page = page;
 
         MainPage = new AppShell();
     }
 
     protected async override void OnStart()
     {
+        if (string.IsNullOrEmpty(await SecureStorage.GetAsync(AppConsts.COOKIE_KEY)))
+        {
+            MainPage = _page;
+            return;
+        }
+
         if (await SecureStorage.GetAsync(AppConsts.COOKIE_KEY) != null)
         {
-#if WINDOWS
-            await Task.Delay(250);
-#endif
             await Shell.Current.GoToAsync($"//{nameof(PursePage)}");
         }
 
