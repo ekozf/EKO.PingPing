@@ -33,7 +33,7 @@ public sealed partial class StatisticsViewModel : ObservableObject
         var totalSpent = await GetTotalSpent();
         TotalSpentString = $"€ {totalSpent:F2}";
 
-        var monthlySpent = await GetMonthlySpent(DateTime.Now.Month, DateTime.Now.Month);
+        var monthlySpent = await GetMonthlySpent(DateTime.Now.Month, DateTime.Now.Year);
         TotalMonthlySpentString = $"€ {monthlySpent:F2}";
 
         var previousMonth = DateTime.Now.Month - 1;
@@ -41,14 +41,13 @@ public sealed partial class StatisticsViewModel : ObservableObject
 
         if (DateTime.Now.Month == 1)
         {
-            year -= 1;
-        }
-
-        if (previousMonth is 0)
             previousMonth = 12;
+            year = DateTime.Now.Year - 1;
+        }
 
         var previousMonthSpent = await GetMonthlySpent(previousMonth, year);
         TotalPreviouslyMonthlySpentString = $"€ {previousMonthSpent:F2}";
+    
 
         var yearlySpent = await GetYearlySpent(year);
         TotalYearlySpentString = $"€ {yearlySpent:F2}";
