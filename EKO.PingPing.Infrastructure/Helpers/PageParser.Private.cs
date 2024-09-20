@@ -98,7 +98,7 @@ internal static partial class PageParser
         var trimmedDate = date.Trim();
 
         if (usesDashes)
-            return DateTime.ParseExact(trimmedDate, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(trimmedDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         else
             return DateTime.ParseExact(trimmedDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
     }
@@ -113,7 +113,7 @@ internal static partial class PageParser
         var trimmedPrice = price.Trim();
 
         // Remove the currency symbol from the price
-        return double.Parse(trimmedPrice[1..].Replace(',', '.'), NumberFormatInfo.InvariantInfo);
+        return double.Parse(trimmedPrice.Replace(',', '.'), NumberFormatInfo.InvariantInfo);
     }
 
     /// <summary>
@@ -141,87 +141,6 @@ internal static partial class PageParser
         }
 
         return dateTimes;
-    }
-
-    /// <summary>
-    /// Scrapes all the transaction descriptions from the page.
-    /// </summary>
-    /// <param name="page">Page where all the date times will be scraped from</param>
-    /// <returns>List of scraped descriptions</returns>
-    private static List<string> ParseTransactionDescriptions(string[] page)
-    {
-        var indexes = new List<int>();
-
-        // Get all the indexes of the transaction descriptions
-        indexes = page
-                    .Select((value, i) => new { i, value })
-                    .Where(x => x.value.Contains("trxdescription"))
-                    .Select(x => x.i)
-                    .ToList();
-
-        var descriptions = new List<string>();
-
-        foreach (var i in indexes)
-        {
-            var description = page[i + 1];
-            descriptions.Add(description);
-        }
-
-        return descriptions;
-    }
-
-    /// <summary>
-    /// Scrapes all the transaction prices from the page.
-    /// </summary>
-    /// <param name="page">Page where all the date times will be scraped from</param>
-    /// <returns>List of scraped prices</returns>
-    private static List<string> ParseTransactionPrices(string[] page)
-    {
-        var indexes = new List<int>();
-
-        // Get all the indexes of the transaction prices
-        indexes = page
-                    .Select((value, i) => new { i, value })
-                    .Where(x => x.value.Contains("trxamount "))
-                    .Select(x => x.i)
-                    .ToList();
-
-        var prices = new List<string>();
-
-        foreach (var i in indexes)
-        {
-            var price = page[i + 1];
-            prices.Add(price);
-        }
-
-        return prices;
-    }
-
-    /// <summary>
-    /// Scrapes all the transaction locations from the page.
-    /// </summary>
-    /// <param name="page">Page where all the date times will be scraped from</param>
-    /// <returns>List of scraped locations</returns>
-    private static List<string> ParseTransactionLocations(string[] page)
-    {
-        var indexes = new List<int>();
-
-        // Get all the indexes of the transaction locations
-        indexes = page
-                    .Select((value, i) => new { i, value })
-                    .Where(x => x.value.Contains("trxlocation"))
-                    .Select(x => x.i)
-                    .ToList();
-
-        var locations = new List<string>();
-
-        foreach (var i in indexes)
-        {
-            var location = page[i + 1];
-            locations.Add(location);
-        }
-
-        return locations;
     }
 
     /// <summary>

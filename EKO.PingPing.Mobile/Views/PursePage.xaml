@@ -141,6 +141,20 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
+            <CollectionView.EmptyView>
+                <VerticalStackLayout>
+                    <Label
+                        Margin="0,30,0,0"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        Opacity="1"
+                        Text="{x:Static res:AppResources.PursePage_Empty}"
+                        TextColor="{DynamicResource Primary}"
+                        VerticalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
             <CollectionView.Footer>
                 <VerticalStackLayout Margin="0,25,0,0" />
             </CollectionView.Footer>

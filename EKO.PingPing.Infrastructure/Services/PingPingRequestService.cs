@@ -118,7 +118,7 @@ public sealed class PingPingRequestService : IRequestService
         return response.StatusCode == HttpStatusCode.MovedPermanently;
     }
 
-    public async Task<PageResponse> GetTransactions(string cookie, int page = 0)
+    public async Task<PageResponse> GetTransactionsByDate(string cookie, DateTime date)
     {
         var request = new HttpRequestMessage
         {
@@ -132,8 +132,10 @@ public sealed class PingPingRequestService : IRequestService
             },
             Content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
-                { "purse", "1" }, // For now we only support the first purse
-                { "page", (page * 25).ToString() }, // The page number is multiplied by 25, because the website only shows 25 transactions per page
+                { "StartDate", date.ToString("dd-MM-yyyy") },
+                { "EndDate", DateTime.Today.ToString("dd-MM-yyyy") },
+                { "search", "" },
+                { "s", "" },
             }),
         };
 

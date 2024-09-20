@@ -67,7 +67,7 @@ public sealed class PingPingService : IPingPingService
         // If we are forced to get the purse, or we don't have it in the cache, we will get it from the website.
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
 
-        var purse = await _request.GetUserPurse(cookie);
+        var purse = await _request.GetUserPurse(cookie!);
 
         var model = PageParser.ParseUserPurse(purse);
 
@@ -84,49 +84,49 @@ public sealed class PingPingService : IPingPingService
 
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
 
-        await _request.LogOutUser(cookie);
+        await _request.LogOutUser(cookie!);
 
         return SecureStorage.Default.Remove(COOKIE_KEY);
     }
 
-    public async Task<PagedTransactionModel?> GetRecentTransactions(bool forced = false)
+    public async Task<DatedTransactionsModel?> GetRecentTransactionsByDate(bool forced = false)
     {
-        return await GetTransactions(0, forced);
+        return await GetTransactionsByDate(DateTime.Today.AddMonths(-1), forced);
     }
 
-    public async Task<PagedTransactionModel?> GetTransactions(int page, bool forced = false)
+    public async Task<DatedTransactionsModel?> GetTransactionsByDate(DateTime fromDate, bool forced = false)
     {
         if (!await IsUserLoggedIn())
             return null;
 
-        var cached = (_cachedRepository.Get(ModelTypeEnum.PagedTransaction) as PageTransactionListModel)
+        var cached = (_cachedRepository.Get(ModelTypeEnum.DatedTransaction) as DatedTransactionsModelList)
                     ?? throw new ApplicationException("List of Pages not initialized before accessing data from the cache.");
 
         // If we are not forced to get the transactions, we will try to get them from the cache first.
         if (!forced)
         {
-            var cachedPage = cached.PagedTransactions.Find(x => x.Page == page);
+            var cachedPage = cached.DatedTransactions.Find(x => x.FromDate == fromDate);
 
             if (cachedPage != null)
                 return cachedPage;
         }
         else
         {
-            cached.PagedTransactions.Clear();
+            cached.DatedTransactions.Clear();
         }
 
         // If we are forced to get the transactions, or we don't have them in the cache, we will get them from the website.
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
 
-        var transactions = await _request.GetTransactions(cookie, page);
+        var transactions = await _request.GetTransactionsByDate(cookie!, fromDate);
 
-        var models = PageParser.ParseTransactions(transactions, page);
+        var models = PageParser.ParseTransactionsByDate(transactions, fromDate);
 
         // Save the models in the cache.
-        var allCachedPages = (_cachedRepository.Get(ModelTypeEnum.PagedTransaction) as PageTransactionListModel)
+        var allCachedPages = (_cachedRepository.Get(ModelTypeEnum.DatedTransaction) as DatedTransactionsModelList)
                                 ?? throw new ApplicationException("List of Pages not initialized before accessing data from the cache.");
 
-        allCachedPages.PagedTransactions.Add(models);
+        allCachedPages.DatedTransactions.Add(models);
 
         return models;
     }
@@ -148,7 +148,7 @@ public sealed class PingPingService : IPingPingService
         // If we are forced to get the sessions, or we don't have them in the cache, we will get them from the website.
         var cookie = await SecureStorage.Default.GetAsync(COOKIE_KEY);
 
-        var sessions = await _request.GetAllCurrentSessions(cookie);
+        var sessions = await _request.GetAllCurrentSessions(cookie!);
 
         var model = PageParser.ParseUserSessions(sessions);
 

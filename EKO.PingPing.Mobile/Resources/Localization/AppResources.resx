@@ -150,6 +150,9 @@
   <data name="ProfilePage.More.SeeLogins" xml:space="preserve">
     <value>Bekijk Logins</value>
   </data>
+  <data name="PursePage.Empty" xml:space="preserve">
+    <value>Geen recente transacties...</value>
+  </data>
   <data name="PursePage.Subheader.RecentTransactions" xml:space="preserve">
     <value>Recente Transacties</value>
   </data>

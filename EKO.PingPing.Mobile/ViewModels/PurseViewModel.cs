@@ -12,7 +12,7 @@ public partial class PurseViewModel : ObservableObject
     private PurseModel _purse;
 
     [ObservableProperty]
-    private PagedTransactionModel _transactions;
+    private DatedTransactionsModel _transactions;
 
     [ObservableProperty]
     private double _balance;
@@ -35,7 +35,7 @@ public partial class PurseViewModel : ObservableObject
     private async Task LoadPurse()
     {
         _purse = await _pingPingService.GetUserPurse();
-        Transactions = await _pingPingService.GetRecentTransactions();
+        Transactions = await _pingPingService.GetRecentTransactionsByDate();
 
         if (_purse is null)
             return;
@@ -59,7 +59,7 @@ public partial class PurseViewModel : ObservableObject
     private async Task RefreshPurse()
     {
         _purse = await _pingPingService.GetUserPurse(forced: true);
-        Transactions = await _pingPingService.GetRecentTransactions(forced: true);
+        Transactions = await _pingPingService.GetRecentTransactionsByDate(forced: true);
 
         if (_purse is null)
             return;

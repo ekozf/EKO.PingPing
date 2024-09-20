@@ -7,4 +7,5 @@ public enum ModelTypeEnum
     PagedTransaction,
     Sessions,
     PagedSessions,
+    DatedTransaction,
 }

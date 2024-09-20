@@ -33,16 +33,16 @@ public sealed partial class StatisticsViewModel : ObservableObject
         var totalSpent = await GetTotalSpent();
         TotalSpentString = $"€ {totalSpent:F2}";
 
-        var monthlySpent = await GetMonthlySpent(DateTime.Now.Month, DateTime.Now.Year);
+        var monthlySpent = await GetMonthlySpent(DateTime.Today.Month, DateTime.Today.Year);
         TotalMonthlySpentString = $"€ {monthlySpent:F2}";
 
-        var previousMonth = DateTime.Now.Month - 1;
-        var year = DateTime.Now.Year;
+        var previousMonth = DateTime.Today.Month - 1;
+        var year = DateTime.Today.Year;
 
-        if (DateTime.Now.Month == 1)
+        if (DateTime.Today.Month == 1)
         {
             previousMonth = 12;
-            year = DateTime.Now.Year - 1;
+            year = DateTime.Today.Year - 1;
         }
 
         var previousMonthSpent = await GetMonthlySpent(previousMonth, year);
@@ -59,10 +59,11 @@ public sealed partial class StatisticsViewModel : ObservableObject
     /// <returns>Total amount of money spent.</returns>
     private async Task<double> GetTotalSpent()
     {
-        var allTransactions = await GetTransactions();
+        var allTransactions = await _pingPingService.GetTransactionsByDate(new DateTime(2004, 8, 7));
 
-        return SumAndRound(allTransactions);
+        return SumAndRound(allTransactions.Transactions);
     }
+
     /// <summary>
     /// Load all the transactions for a given month.
     /// </summary>
@@ -70,13 +71,19 @@ public sealed partial class StatisticsViewModel : ObservableObject
     /// <returns>Balance spent this month</returns>
     private async Task<double> GetMonthlySpent(int month, int year)
     {
-        var transactions = await GetTransactions();
+        // Get the start of the current month
+        var firstDayCurrentMonth = new DateTime(year, month, 1);
 
-        var monthlyTransactions = transactions
-            .Where(x => x.Date.Month == month && x.Date.Year == year)
-            .ToList();
+        var transactions = await _pingPingService.GetTransactionsByDate(firstDayCurrentMonth);
 
-        return SumAndRound(monthlyTransactions);
+        if (month < DateTime.Today.Month)
+        {
+            var transactionsPreviousMonth = transactions.Transactions.Where(x => x.Date < firstDayCurrentMonth).ToList();
+
+            return SumAndRound(transactionsPreviousMonth);
+        }
+
+        return SumAndRound(transactions.Transactions);
     }
 
     /// <summary>
@@ -85,65 +92,22 @@ public sealed partial class StatisticsViewModel : ObservableObject
     /// <returns>Balance spent this school year</returns>
     private async Task<double> GetYearlySpent(int year)
     {
-        var transactions = await GetTransactions();
+        var datedTransactions = await _pingPingService.GetTransactionsByDate(new DateTime(year, 9, 1));
 
         bool isBeforeSeptember = DateTime.Now.Date < new DateTime(year, 9, 1);
-        var yearlyTransactions = transactions
-            .OrderByDescending(x => x.Date)
-            .Where(x => isBeforeSeptember ? x.Date < new DateTime(year - 1, 9, 1) : x.Date < new DateTime(year, 9, 1))
-            .ToList();
 
-        return SumAndRound(yearlyTransactions);
-    }
+        List<TransactionModel> transactions;
 
-    /// <summary>
-    /// Get all the transactions.
-    /// </summary>
-    /// <returns>All loaded transactions</returns>
-    private async Task<IReadOnlyList<TransactionModel>> GetTransactions()
-    {
-        var hasReachedEnd = false;
-        var currentPage = 0;
-        var transactionsList = new List<TransactionModel>();
-
-        while (!hasReachedEnd)
+        if (isBeforeSeptember)
         {
-            // Get all transactions as tasks and wait for them all to concurrently finish
-            var results = await Task.WhenAll(GetTransactionsAll(currentPage, AMOUNT_TO_LOAD_PAGES));
-
-            // Add all the transactions to the list
-            transactionsList.AddRange(results.SelectMany(x => x.Transactions));
-
-            // If any of the results has less than 25 transactions, we have reached the end
-            if (results.Any(x => x.Transactions.Count < 25)) // 25 is the max amount of transactions per page
-                hasReachedEnd = true;
-
-            // Increase the current page by the amount of pages we loaded
-            currentPage += AMOUNT_TO_LOAD_PAGES;
+            transactions = datedTransactions.Transactions.Where(x => x.Date > new DateTime(year - 1, 9, 1)).ToList();
+        }
+        else
+        {
+            transactions = datedTransactions.Transactions.Where(x => x.Date > new DateTime(year, 9, 1)).ToList();
         }
 
-        return transactionsList;
-    }
-
-    /// <summary>
-    /// Get all the transactions for a given page.
-    /// </summary>
-    /// <param name="page">Transaction history page number</param>
-    /// <returns>List of tasks of transactions</returns>
-    private IReadOnlyList<Task<PagedTransactionModel>> GetTransactionsAll(int page, int amountOfPagesToLoad)
-    {
-        var currentPage = page;
-
-        var transactionsTasks = new List<Task<PagedTransactionModel>>();
-
-        while (currentPage != page + amountOfPagesToLoad)
-        {
-            transactionsTasks.Add(_pingPingService.GetTransactions(currentPage));
-
-            currentPage++;
-        }
-
-        return transactionsTasks.AsReadOnly();
+        return SumAndRound(transactions);
     }
 
     /// <summary>

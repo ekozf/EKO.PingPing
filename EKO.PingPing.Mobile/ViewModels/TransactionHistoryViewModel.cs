@@ -28,7 +28,7 @@ public partial class TransactionHistoryViewModel : ObservableObject
         if (Transactions.Count > 0)
             return;
 
-        var transactions = await _pingPingService.GetTransactions(0);
+        var transactions = await _pingPingService.GetTransactionsByDate(DateTime.Today.AddMonths(-1));
 
         if (transactions is null)
             return;
@@ -42,7 +42,7 @@ public partial class TransactionHistoryViewModel : ObservableObject
     [RelayCommand]
     private async Task RefreshTransactions()
     {
-        var transactions = await _pingPingService.GetTransactions(0, forced: true);
+        var transactions = await _pingPingService.GetTransactionsByDate(DateTime.Today.AddMonths(-1 * _currentPage), forced: true);
 
         if (transactions is null)
             return;
@@ -61,15 +61,18 @@ public partial class TransactionHistoryViewModel : ObservableObject
         if (_hasReachedEnd)
             return;
 
-        var transactions = await _pingPingService.GetTransactions(_currentPage);
+        var transactions = await _pingPingService.GetTransactionsByDate(DateTime.Today.AddMonths(-3 * _currentPage));
 
         if (transactions is null)
             return;
+
+        Transactions.Clear();
 
         foreach (var transaction in transactions.Transactions)
         {
             Transactions.Add(transaction);
         }
+
         _currentPage += 1;
     }
 }

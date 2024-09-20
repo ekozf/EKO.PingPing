@@ -36,16 +36,16 @@ public interface IPingPingService
     /// Get the user's recent transactions from the API.
     /// </summary>
     /// <param name="forced">Whether to ignore cached results, true forces a request to the API, false allows for data to be retrieved from the cache. Default is false.</param>
-    /// <returns>If the user is correctly logged in, returns an IEnumerable of <see cref="TransactionModel"/> otherwise returns null.</returns>
-    public Task<PagedTransactionModel?> GetRecentTransactions(bool forced = false);
+    /// <returns>If the user is correctly logged in, returns an IEnumerable of <see cref="DatedTransactionsModel"/> otherwise returns null.</returns>
+    public Task<DatedTransactionsModel?> GetRecentTransactionsByDate(bool forced = false);
 
     /// <summary>
     /// Get a page from the user's transactions from the API.
     /// </summary>
-    /// <param name="page">Transaction page</param>
+    /// <param name="fromDate">Transaction from this date until today</param>
     /// <param name="forced">Whether to ignore cached results, true forces a request to the API, false allows for data to be retrieved from the cache. Default is false.</param>
-    /// <returns>If the user is correctly logged in, returns an IEnumerable of <see cref="TransactionModel"/> otherwise returns null.</returns>
-    public Task<PagedTransactionModel?> GetTransactions(int page, bool forced = false);
+    /// <returns>If the user is correctly logged in, returns an IEnumerable of <see cref="DatedTransactionsModel"/> otherwise returns null.</returns>
+    public Task<DatedTransactionsModel?> GetTransactionsByDate(DateTime fromDate, bool forced = false);
 
     /// <summary>
     /// Gets the user's sessions from the API.

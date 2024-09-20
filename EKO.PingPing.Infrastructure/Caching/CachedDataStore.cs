@@ -12,4 +12,5 @@ public class CachedDataStore
     internal PageTransactionListModel? _cachedPageTransaction = new();
     internal SessionsModel? _cachedSession;
     internal SessionsModelList? _cachedPagedSessions = new();
+    internal DatedTransactionsModelList? _cachedDatedTransactions = new();
 }

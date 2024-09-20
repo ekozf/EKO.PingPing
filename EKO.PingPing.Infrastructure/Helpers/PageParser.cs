@@ -1,5 +1,6 @@
 ﻿using EKO.PingPing.Shared.Models;
 using EKO.PingPing.Shared.Responses;
+using System.Text;
 
 namespace EKO.PingPing.Infrastructure.Helpers;
 
@@ -44,44 +45,129 @@ internal static partial class PageParser
     /// <param name="response"><see cref="PageResponse"/> with the retrieved page</param>
     /// <param name="page">Page number to get</param>
     /// <returns>List of transactions that the user has made</returns>
-    internal static PagedTransactionModel ParseTransactions(PageResponse response, int page)
+    internal static DatedTransactionsModel ParseTransactionsByDate(PageResponse response, DateTime dateFrom)
     {
-        //TestTransactionParsers(response);
+        // Process loaded page data, remove all tabs
+        var data = ProcessTransactionsData(response.Page.Replace("\t", ""));
 
-        // Remove the tabs from the page and split it into lines
-        var responsePage = response.Page.Replace("\t", "").Split('\n');
-
-        var dateTimes = ParseTransactionDateTimes(responsePage);
-        var descriptions = ParseTransactionDescriptions(responsePage);
-        var prices = ParseTransactionPrices(responsePage);
-        var locations = ParseTransactionLocations(responsePage);
-
-        // Combine the data into one list so we can enumerate them together
-        var dataZip = dateTimes
-                        .Zip(descriptions, (Date, Description) => new { Date, Description })
-                        .Zip(prices, (x, Price) => new { x.Date, x.Description, Price })
-                        .Zip(locations, (x, Location) => new { x.Date, x.Description, x.Price, Location });
-
-        var transactions = new PagedTransactionModel(page);
-
-        foreach (var entry in dataZip)
+        var transactions = new DatedTransactionsModel(dateFrom)
         {
-            transactions.Transactions.Add(new TransactionModel
+            Transactions = data
+        };
+
+        return transactions;
+    }
+
+    /// <summary>
+    /// Parses the page and returns the data of the user's sessions.
+    /// </summary>
+    /// <param name="responsePage"><see cref="ReadOnlySpan{Char}"/> of the entire page</param>
+    /// <returns>All previously done transactions</returns>
+    private static List<TransactionModel> ProcessTransactionsData(ReadOnlySpan<char> responsePage)
+    {
+        var transactions = new List<TransactionModel>();
+
+        // Get all the transactions by even and odd rows in the table
+        var parsedOddRows = ParseAllRows("<tr class=\"\" >", responsePage);
+        var parsedEvenRows = ParseAllRows("<tr class=\"even \" >", responsePage);
+
+        // Split the rows into individual columns to be parsed later, removing the last </td> tag since it's not needed and is on another line
+        var oddRows = parsedOddRows.Split('\n').Skip(1).Where(x => x != "</td>").ToList();
+        var evenRows = parsedEvenRows.Split('\n').Skip(1).Where(x => x != "</td>").ToList();
+
+        // Process the columns and add them to the transactions list
+        var oddColumns = ProcessColumns(oddRows);
+        var evenColumns = ProcessColumns(evenRows);
+
+        transactions.AddRange(oddColumns);
+        transactions.AddRange(evenColumns);
+
+        // Order the transactions by date
+        transactions = transactions.OrderByDescending(x => x.Date).ToList();
+
+        return transactions;
+    }
+
+    /// <summary>
+    /// Processes the columns of the transactions and returns them as a list.
+    /// </summary>
+    /// <param name="rows">Individual rows of the transaction details</param>
+    /// <returns>List of all processed column data</returns>
+    private static List<TransactionModel> ProcessColumns(IReadOnlyList<string> rows)
+    {
+        var transactions = new List<TransactionModel>();
+
+        for (int i = 0; i < rows.Count; i += 4)
+        {
+            // Get the columns for the transaction
+            var columnDate = rows[i].AsSpan();
+            var columnLocation = rows[i + 1].AsSpan();
+            var columnDescription = rows[i + 2].AsSpan();
+            var columnPrice = rows[i + 3].AsSpan();
+
+            // 19 is the length of the date string (dd-MM-yyyy HH:mm:ss)
+            var date = columnDate.Slice(columnDate.IndexOf("<td>") + "<td>".Length, 19).ToString();
+            
+            var location = columnLocation.Slice(columnLocation.IndexOf("<td>") + "<td>".Length, columnLocation.IndexOf("</td>") - columnLocation.IndexOf("<td>") - "<td>".Length).ToString();
+            
+            var description = columnDescription.Slice(columnDescription.IndexOf("<td style=\"word-wrap:break-all;\">") + "<td style=\"word-wrap:break-all;\">".Length, columnDescription.IndexOf("</td>") - columnDescription.IndexOf("<td style=\"word-wrap:break-all;\">") - "<td style=\"word-wrap:break-all;\">".Length).ToString();
+            
+            var price = columnPrice.Slice(columnPrice.IndexOf("<td class=\"\">") + "<td class=\"\">".Length).ToString().Replace("g-green\">", "");
+
+            transactions.Add(new TransactionModel
             {
-                Date = ConvertStringDateToDateTime(entry.Date),
-                Description = entry.Description,
-                Price = ConvertTransactionPriceToDouble(entry.Price),
-                Location = entry.Location
+                Date = ConvertStringDateToDateTime(date),
+                Description = description,
+                Price = ConvertTransactionPriceToDouble(price),
+                Location = location
             });
         }
 
-        // API returns 25 transactions per page, so if we have less than that, we have reached the end.
-        if (transactions.Transactions.Count < 25)
+        return transactions;
+    }
+
+    /// <summary>
+    /// Parses the page and returns the individual transactions grouped by 4 columns.
+    /// </summary>
+    /// <param name="rowHeader">Row HTML tag to search for</param>
+    /// <param name="responsePage">The page to search on</param>
+    /// <returns>All individual transactions, each 4 lines is a transaction (Date, Location, Description, Price)</returns>
+    private static string ParseAllRows(string rowHeader, ReadOnlySpan<char> responsePage) 
+    {
+        // Get the offset of the table row
+        int offset = rowHeader.Length;
+
+        // Find the first index of the row header
+        var index = responsePage.IndexOf(rowHeader);
+
+        var builder = new StringBuilder();
+
+        while (index != -1)
         {
-            transactions.HasReachedEnd = true;
+            // Skip the row header
+            var start = index + rowHeader.Length;
+
+            // Find the end of the row
+            var end = responsePage.Slice(start).IndexOf("</tr>");
+
+            // Get all the details for the transaction
+            builder.Append(responsePage.Slice(start, end));
+
+            // Find the next row header
+            var next = responsePage.Slice(start + offset).IndexOf(rowHeader);
+
+            // If we can't find the next row header, we have reached the end
+            if (next == -1)
+            {
+                break;
+            }
+
+            // Continue
+            index = next + start;
         }
 
-        return transactions;
+        // Remove the row header
+        return builder.Replace(rowHeader, "").ToString();
     }
 
     internal static void TestTransactionParsers(PageResponse response)
@@ -128,7 +214,6 @@ internal static partial class PageParser
     private static string[] ParseTransactionDateTimesOp(ReadOnlySpan<char> page)
     {
         var dateTimes = new string[25];
-
         //var start = page.IndexOf("<div class=\"trxdatetime\">\n");
 
         //var offset = 0;

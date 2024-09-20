@@ -30,12 +30,12 @@ public interface IRequestService
     public Task<bool> LogOutUser(string cookie);
 
     /// <summary>
-    /// Get the user transactions from the server.
+    /// Get the user transactions from the server by date.
     /// </summary>
     /// <param name="cookie">Authentication cookie of the logged in user</param>
-    /// <param name="page">Transaction page</param>
+    /// <param name="date">Date from which to start getting the transactions from</param>
     /// <returns><see cref="PageResponse"/> from the server.</returns>
-    public Task<PageResponse> GetTransactions(string cookie, int page = 0);
+    public Task<PageResponse> GetTransactionsByDate(string cookie, DateTime date);
 
     /// <summary>
     /// Get all the current sessions of the user.

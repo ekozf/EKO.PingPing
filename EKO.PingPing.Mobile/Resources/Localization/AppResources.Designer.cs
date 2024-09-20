@@ -160,6 +160,15 @@ namespace EKO.PingPing.Mobile.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geen recente transacties....
+        /// </summary>
+        internal static string PursePage_Empty {
+            get {
+                return ResourceManager.GetString("PursePage.Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recente Transacties.
         /// </summary>
         internal static string PursePage_Subheader_RecentTransactions {
